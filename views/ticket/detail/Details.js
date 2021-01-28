@@ -23,7 +23,6 @@ const Details = ({
                  }) => {
   const classes = useStyles();
 
-  console.log('data',ticketInformation)
 
   const ticket = ticketInformation.data[0];
   return (

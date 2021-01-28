@@ -86,9 +86,16 @@ const Ticket = () => {
             </Box>
             <Divider />
             <Box mt={3}>
-              {currentTab === 'details' && ticketInformation && (
-                <Details ticketInformation={ticketInformation} />
-              )}
+              {currentTab === 'details' &&
+                ticketInformation &&
+                ticketInformation.data && (
+                  <Details ticketInformation={ticketInformation} />
+                )}
+              {currentTab === 'details' &&
+                ticketInformation &&
+                ticketInformation.errorTicket && (
+                  <div>{ticketInformation.message}</div>
+                )}
               {/* {currentTab === 'invoices' && <Details />}
           {currentTab === 'logs' && <Details />} */}
             </Box>
