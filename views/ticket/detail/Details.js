@@ -49,6 +49,7 @@ const Details = ({
         xs={12}
       >
         <Coupons data={ticket.coupon} />
+          <b>importe Neto:</b>{ticket.netAmount}
       </Grid>
       <Grid
         item
