@@ -48,7 +48,7 @@ const TicketInfo = ({ ticket, className, ...rest }) => {
 
                 Date:<b> {ticket.issueDate} </b> | Pax:
                 <b> {ticket.passengerName} </b> | Pax Type:<b> </b> | FOID:
-                <b> </b> | Clave Fiscal:<b> </b> | Frequent Flyer:<b> </b> |{' '}
+                <b> {ticket.FOID} </b> | Clave Fiscal:<b> </b> | Frequent Flyer:<b> </b> |{' '}
                 Frequent Flyer:<b> </b> | Fare Calc Mode:<b> </b> | FCPI:
                 <b> </b> |{' '}
             </TableCellChanged>
