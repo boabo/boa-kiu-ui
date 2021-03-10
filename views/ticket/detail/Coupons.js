@@ -22,7 +22,7 @@ const columns = [
 ];
 
 
-const Coupons = ({ data }) => {
+const Coupons = ({ data = [] }) => {
   const dataWithId = data.reduce((lastValue, value, index) => {
     lastValue.push({
       ...value,
