@@ -22,6 +22,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Ticket = () => {
+  const [permission, setPermission] = useState(false);
+  // verify permission for render button for disabled ticket
+  const { data: dataPermission } = useJsonStore({
+    url: 'boakiu/Boleto/verifyPermissionForDisabled',
+    params: {},
+  });
+
+  // when the data has gotten an resp
+  useEffect(() => {
+    console.log(dataPermission);
+    if (dataPermission) {
+      setPermission(dataPermission);
+    }
+  }, [dataPermission]);
+
   const { state, set, data, loading } = useJsonStore({
     url: 'boakiu/Boleto/getTicketInformationRecursive',
     params: {
@@ -63,6 +78,8 @@ const Ticket = () => {
     });
   };
 
+
+
   return (
     <>
       <Container maxWidth={false}>
@@ -89,7 +106,7 @@ const Ticket = () => {
               {currentTab === 'details' &&
                 ticketInformation &&
                 ticketInformation.data && (
-                  <Details ticketInformation={ticketInformation} />
+                  <Details ticketInformation={ticketInformation} permission={permission} initFilter={initFilter}/>
                 )}
               {currentTab === 'details' &&
                 ticketInformation &&

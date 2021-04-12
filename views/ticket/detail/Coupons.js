@@ -18,7 +18,9 @@ const columns = [
   { field: 'Class', headerName: 'Class' },
   { field: 'depatureDate', headerName: 'Flight Date' },
   { field: 'fareBasis', headerName: 'Fare Basis' },
+  { field: 'CouponStatus', headerName: 'Status' },
   { field: 'FreeBaggageAllowance', headerName: 'Baggage' },
+  { field: 'FrequentFlyerReference', headerName: 'FFID' },
 ];
 
 
@@ -31,7 +33,7 @@ const Coupons = ({ data = [] }) => {
     return lastValue;
   }, []);
 
-  return <BasicTable data={dataWithId} columns={columns} />;
+  return <BasicTable tableName={"Cupones"} data={dataWithId} columns={columns} />;
 };
 
 export default Coupons;

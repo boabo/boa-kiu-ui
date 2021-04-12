@@ -14,11 +14,15 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import {  withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined';
 import PersonIcon from '@material-ui/icons/PersonOutline';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import Label from '../../../../_pxp/components/Label';
+import Amounts from './Amounts';
+import AmountBox from './AmountBox';
 
 const TableCellChanged = withStyles({
   root: {
@@ -39,37 +43,37 @@ const TicketInfo = ({ ticket, className, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title={`${ticket.issueAgencyCode} (${ticket.currency}) Nro. Ticket: ${ticket.ticketNumber} Trans: ${ticket.transaction}`} />
       <Divider />
-      <Table>
-        <TableBody>
-          <TableRow>
-            <TableCellChanged align="center" padding="none">
-
-                Date:<b> {ticket.issueDate} </b> | Pax:
-                <b> {ticket.passengerName} </b> | Pax Type:<b> </b> | FOID:
-                <b> {ticket.FOID} </b> | Clave Fiscal:<b> </b> | Frequent Flyer:<b> </b> |{' '}
-                Frequent Flyer:<b> </b> | Fare Calc Mode:<b> </b> | FCPI:
-                <b> </b> |{' '}
-            </TableCellChanged>
-          </TableRow>
-          <TableRow>
-            <TableCellChanged align="center" padding="none">
-                Tour Code:<b> {ticket.TourCode} </b> | Type:<b> </b> | Pais Em.:<b> </b> |{' '}
-                Interv.:<b> {ticket.issueAgencyCode} </b> | OfficeId Reserva:
-                <b> {ticket.reserveOfficeID} </b> | OfficeId Emisor:
-                <b> {ticket.issueOfficeID} </b> | Agente Reserva:
-                <b> {ticket.ReserveAgent} </b> |{' '}
-            </TableCellChanged>
-          </TableRow>
-          <TableRow>
-            <TableCellChanged align="center" padding="none">
-                Agente Emisor:<b> </b> | Cod. Reserva:<b> {ticket.pnrCode} </b>{' '}
-                | Endoso:<b> {ticket.Endorsement} </b> | Host:<b> {ticket.Host}</b> |{' '}
-            </TableCellChanged>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <Container maxWidth={false}>
+        <Grid container spacing={3}>
+          <Grid item lg={4} sm={4} xs={12}>
+            Date:<b> {ticket.issueDate} </b> <Divider />
+            Pax: <b> {ticket.passengerName} </b> <Divider />
+            Pax Type:<b> </b> <Divider />
+            FOID:<b> {ticket.FOID} </b> <Divider />
+            Clave Fiscal:<b> </b> <Divider /> Frequent Flyer:<b> </b>{' '}
+            <Divider />
+            Frequent Flyer:<b> </b> <Divider />
+            Fare Calc Mode:<b> </b> <Divider />
+            FCPI:
+          </Grid>
+          <Grid item lg={4} sm={4} xs={12}>
+            Tour Code:<b> {ticket.TourCode} </b> <Divider /> Type:<b> </b>{' '}
+            <Divider /> Pais Em.:<b> </b> <Divider /> Interv.:
+            <b> {ticket.issueAgencyCode} </b> <Divider /> OfficeId Reserva:
+            <b> {ticket.reserveOfficeID} </b> <Divider /> OfficeId Emisor:
+            <b> {ticket.issueOfficeID} </b> <Divider /> Agente Reserva:
+            <b> {ticket.ReserveAgent} </b> <Divider />{' '}
+          </Grid>
+          <Grid item lg={4} sm={4} xs={12}>
+            Agente Emisor:<b> </b> <Divider /> Cod. Reserva:
+            <b> {ticket.pnrCode} </b> <Divider /> Endoso:
+            <b> {ticket.Endorsement} </b> <Divider /> Host:<b> {ticket.Host}</b>{' '}
+            <Divider />{' '}
+          </Grid>
+        </Grid>
+      </Container>
+      <Divider />
     </Card>
   );
 };

@@ -9,7 +9,7 @@ const columns = [
 ];
 
 const Payments = ({ data }) => {
-  return <BasicTable columns={columns} data={data} />;
+  return <BasicTable tableName={"Forma de Pago Originales"} columns={columns} data={data} />;
 };
 
 export default Payments;

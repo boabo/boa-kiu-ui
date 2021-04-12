@@ -36,7 +36,7 @@ const Taxes = ({ data }) => {
     return lastValue;
   }, []);
 
-  return <BasicTable columns={columns} data={dataWithId} />;
+  return <BasicTable tableName={"Impuestos"} columns={columns} data={dataWithId} />;
 };
 
 export default Taxes;
