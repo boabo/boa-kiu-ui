@@ -56,11 +56,19 @@ const ActionsTicket = ({ ticket, initFilter }) => {
       .then((resp) => {
         console.log(resp);
         setLoading(false);
-        enqueueSnackbar('Success', {
-          variant: 'success',
-          action: <Button>See all</Button>,
-        });
-        initFilter(ticket.ticketNumber);
+
+        if(resp.success) {
+          enqueueSnackbar('Success', {
+            variant: 'success',
+            action: <Button>See all</Button>,
+          });
+          initFilter(ticket.ticketNumber);
+        } else {
+          enqueueSnackbar(resp.response_from_erp, {
+            variant: 'error',
+          });
+        }
+
 
       })
       .catch((err) => {

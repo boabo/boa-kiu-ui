@@ -15,12 +15,16 @@ import ActionsTicket from "./ActionsTicket";
 const HeaderTicket = ({ ticket, permission, initFilter }) => {
 
   console.log('permission', permission)
+  let colorTransaction = 'black';
+  if(ticket.transaction === 'CANX' || ticket.transaction === 'CANN') {
+    colorTransaction = 'red';
+  }
   return (
     <Container maxWidth={false}>
       <Grid container spacing={3}>
         <Grid item lg={6} sm={6} xs={6}>
           PNR:<b> {ticket.pnrCode} </b> <Divider />
-          Nro Ticket :<b> {ticket.ticketNumber} </b> Trans: {ticket.transaction}{' '}
+          Nro Ticket :<b> {ticket.ticketNumber} </b> <b style={{color:colorTransaction}}>Trans: {ticket.transaction}{' '}</b>
           <Divider />
           {permission.permission === true && <ActionsTicket ticket={ticket} initFilter={initFilter} /> }
         </Grid>

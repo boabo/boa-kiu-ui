@@ -12,6 +12,7 @@ import HeaderTicket from './HeaderTicket';
 import Concilliation from './Concilliation';
 import FacturaErp from './FacturaErp';
 import BoletoAmadeusModificado from "./BoletoAmadeusModificado";
+import FacturaLibroVentas from "./FacturaLibroVentas";
 /* import CustomerInfo from './CustomerInfo';
 import Emails from './Emails';
 import Invoices from './Invoices';
@@ -27,6 +28,7 @@ const Details = ({ ticketInformation, permission, initFilter, className, ...rest
   const ticket = ticketInformation.data[0];
   const {
     factura_erp: facturaErp,
+    factura_libro_ventas: facturaLibroVentas,
     boleto_amadeus_modificado: boletoAmadeusModificado,
   } = ticketInformation.data_erp;
   return (
@@ -61,13 +63,16 @@ const Details = ({ ticketInformation, permission, initFilter, className, ...rest
         <Concilliation data={ticket.concilliation} />
       </Grid>
       <Grid item lg={6} md={6} xl={6} xs={12}>
-        <FacturaErp data={facturaErp} />
+        <FacturaErp data={facturaErp || []} />
+      </Grid>
+      <Grid item lg={6} md={6} xl={6} xs={12}>
+        <FacturaLibroVentas data={facturaLibroVentas || []} />
       </Grid>
       <Grid item lg={6} md={6} xl={6} xs={12}>
         <Payments data={ticket.payment} />
       </Grid>
       <Grid item lg={6} md={6} xl={6} xs={12}>
-        <BoletoAmadeusModificado data={boletoAmadeusModificado} />
+        <BoletoAmadeusModificado data={boletoAmadeusModificado || []} />
       </Grid>
     </Grid>
   );

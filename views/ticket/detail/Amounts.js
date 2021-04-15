@@ -49,7 +49,7 @@ const Amounts = ({ ticket, className, ...rest }) => {
             descAmount1="Imp. Neto"
             amount1={ticket.netAmount}
             descAmount2="Imp. Nacional"
-            amount2={impuestoNacional || 0}
+            amount2={Math.round(impuestoNacional) || 0}
           />
         </Grid>
         <Grid item lg={3} sm={3} xs={12}>
@@ -65,13 +65,13 @@ const Amounts = ({ ticket, className, ...rest }) => {
             descAmount1="Penalidades"
             amount1={0}
             descAmount2="Excento"
-            amount2={exento || 0}
+            amount2={Math.round(exento) || 0}
           />
         </Grid>
         <Grid item lg={3} sm={3} xs={12}>
           <AmountBox
             descAmount1="Importe Total"
-            amount1={ticket.totalAmount}
+            amount1={Math.round(ticket.totalAmount)}
             descAmount2="Comision"
             amount2={0}
           />
