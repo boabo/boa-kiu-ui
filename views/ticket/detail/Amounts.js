@@ -69,40 +69,48 @@ const Amounts = ({ ticket, className, ...rest }) => {
         <Grid item lg={3} sm={3} xs={12}>
           <AmountBox
             descAmount1="Imp. Neto"
-            amount1={currencyFormat({ value: ticket.netAmount , currencyStr: '' }) || 0}
+            amount1={
+              currencyFormat({ value: ticket.netAmount, withCode: false }) || 0
+            }
             descAmount2="Imp. Nacional"
-            amount2={currencyFormat({ value: impuestoNacional, currencyStr: ''}) || 0}
+            amount2={
+              currencyFormat({ value: impuestoNacional, withCode: false }) || 0
+            }
             currency={ticket.currency}
           />
         </Grid>
         <Grid item lg={3} sm={3} xs={12}>
           <AmountBox
             descAmount1="Otros Impuestos"
-            amount1={currencyFormat({ value: othersTax , currencyStr: '' }) || 0}
+            amount1={
+              currencyFormat({ value: othersTax, withCode: false }) || 0
+            }
             descAmount2="Service Charge"
-            amount2={currencyFormat({ value: charge , currencyStr: '' }) || 0}
+            amount2={currencyFormat({ value: charge, withCode: false }) || 0}
             currency={ticket.currency}
-
           />
         </Grid>
         <Grid item lg={3} sm={3} xs={12}>
           <AmountBox
             descAmount1="Penalidades"
-            amount1={currencyFormat({ value: penalidades, currencyStr: ''  }) || 0}
+            amount1={
+              currencyFormat({ value: penalidades, withCode: false }) || 0
+            }
             descAmount2="Excento"
-            amount2={currencyFormat({ value: exento , currencyStr: '' }) || 0}
+            amount2={currencyFormat({ value: exento, withCode: false }) || 0}
             currency={ticket.currency}
-
           />
         </Grid>
         <Grid item lg={3} sm={3} xs={12}>
           <AmountBox
             descAmount1="Importe Total"
-            amount1={currencyFormat({ value: ticket.totalAmount, currencyStr: '' }) || 0}
+            amount1={
+              currencyFormat({ value: ticket.totalAmount, withCode: false }) ||
+              0
+            }
             descAmount2="Comision"
-            amount2={currencyFormat({ value: 0, currencyStr: '' })}
+            amount2={currencyFormat({ value: 0, withCode: false })}
             currency={ticket.currency}
-
           />
         </Grid>
       </Grid>
