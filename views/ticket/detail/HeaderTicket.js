@@ -12,26 +12,36 @@ import ActionsTicket from "./ActionsTicket";
 
 
 
-const HeaderTicket = ({ ticket, permission, initFilter }) => {
+const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
 
+  const {counter = '', cajero = ''} = datosEmision || {};
   console.log('permission', permission)
   let colorTransaction = 'black';
+  let showButtonAnular = true;
   if(ticket.transaction === 'CANX' || ticket.transaction === 'CANN') {
     colorTransaction = 'red';
+    showButtonAnular = false;
   }
+
   return (
     <Container maxWidth={false}>
       <Grid container spacing={3}>
         <Grid item lg={6} sm={6} xs={6}>
-          PNR:<b> {ticket.pnrCode} </b> <Divider />
-          Nro Ticket :<b> {ticket.ticketNumber} </b> <b style={{color:colorTransaction}}>Trans: {ticket.transaction}{' '}</b>
+          <Typography align="left">
+          Codigo de Reserva:<b> {ticket.pnrCode} </b> <Divider />
+          Nro Ticket :<b> {ticket.ticketNumber} </b> <Divider />
+          Transacción: <b style={{color:colorTransaction}}>{ticket.transaction}{' '}</b>
           <Divider />
-          {permission.permission === true && <ActionsTicket ticket={ticket} initFilter={initFilter} /> }
-        </Grid>
+          <ActionsTicket ticket={ticket} initFilter={initFilter}  showButtonAnular={showButtonAnular} permission={permission}/>
+          </Typography>
+          </Grid>
         <Grid item lg={6} sm={6} xs={6}>
           <Typography align="right">
-            Agencia:<b> {ticket.reserveAgencyCode} </b> <Divider />
-            {ticket.pointOfSale}({ticket.cityCode})
+            Punto de Venta:<b> {ticket.issueAgencyCode}({ticket.issueOfficeID})  </b> <Divider />
+            {ticket.pointOfSale}({ticket.cityCode})<Divider />
+            Agente Emisor:
+            <b> {ticket.issueAgent} ({counter}) </b><Divider />
+
           </Typography>
         </Grid>
       </Grid>

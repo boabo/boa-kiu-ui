@@ -11,8 +11,8 @@ import Amounts from './Amounts';
 import HeaderTicket from './HeaderTicket';
 import Concilliation from './Concilliation';
 import FacturaErp from './FacturaErp';
-import BoletoAmadeusModificado from "./BoletoAmadeusModificado";
-import FacturaLibroVentas from "./FacturaLibroVentas";
+import BoletoAmadeusModificado from './BoletoAmadeusModificado';
+import FacturaLibroVentas from './FacturaLibroVentas';
 /* import CustomerInfo from './CustomerInfo';
 import Emails from './Emails';
 import Invoices from './Invoices';
@@ -22,7 +22,13 @@ const useStyles = makeStyles(() => ({
   root: {},
 }));
 
-const Details = ({ ticketInformation, permission, initFilter, className, ...rest }) => {
+const Details = ({
+  ticketInformation,
+  permission,
+  initFilter,
+  className,
+  ...rest
+}) => {
   const classes = useStyles();
 
   const ticket = ticketInformation.data[0];
@@ -30,7 +36,9 @@ const Details = ({ ticketInformation, permission, initFilter, className, ...rest
     factura_erp: facturaErp,
     factura_libro_ventas: facturaLibroVentas,
     boleto_amadeus_modificado: boletoAmadeusModificado,
+    datos_emision: datosEmision,
   } = ticketInformation.data_erp;
+
   return (
     <Grid
       className={clsx(classes.root, className)}
@@ -39,13 +47,18 @@ const Details = ({ ticketInformation, permission, initFilter, className, ...rest
       {...rest}
     >
       <Grid item lg={12} md={12} xl={12} xs={12}>
-        <HeaderTicket ticket={ticket} permission={permission} initFilter={initFilter}/>
+        <HeaderTicket
+          ticket={ticket}
+          datosEmision={datosEmision}
+          permission={permission}
+          initFilter={initFilter}
+        />
       </Grid>
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <Amounts ticket={ticket} />
       </Grid>
       <Grid item lg={12} md={12} xl={12} xs={12}>
-        <TicketInfo ticket={ticket} />
+        <TicketInfo ticket={ticket} datosEmision={datosEmision} />
       </Grid>
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <Coupons data={ticket.coupon} />
@@ -62,12 +75,18 @@ const Details = ({ ticketInformation, permission, initFilter, className, ...rest
       <Grid item lg={6} md={6} xl={6} xs={12}>
         <Concilliation data={ticket.concilliation} />
       </Grid>
-      <Grid item lg={6} md={6} xl={6} xs={12}>
-        <FacturaErp data={facturaErp || []} />
-      </Grid>
-      <Grid item lg={6} md={6} xl={6} xs={12}>
-        <FacturaLibroVentas data={facturaLibroVentas || []} />
-      </Grid>
+      {Array.isArray(facturaErp) && facturaErp.length > 0 && (
+        <Grid item lg={6} md={6} xl={6} xs={12}>
+          <FacturaErp data={facturaErp || []} />
+        </Grid>
+      )}
+
+      {!facturaErp && Array.isArray(facturaLibroVentas) && (
+        <Grid item lg={6} md={6} xl={6} xs={12}>
+          <FacturaLibroVentas data={facturaLibroVentas || []} />
+        </Grid>
+      )}
+
       <Grid item lg={6} md={6} xl={6} xs={12}>
         <Payments data={ticket.payment} />
       </Grid>

@@ -4,6 +4,7 @@ import BasicTable from '../../../../_pxp/components/BasicTable';
 const columns = [
   { field: 'paymentCode', headerName: 'Codigo' },
   { field: 'paymentDescription', headerName: 'Desc.' },
+  { field: 'paymentCurrency', headerName: 'Moneda' },
   { field: 'paymentAmount', headerName: 'Importe' },
   { field: 'reference', headerName: 'Referencia' },
 ];

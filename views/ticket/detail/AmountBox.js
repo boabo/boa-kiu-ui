@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AmountBox = ({ descAmount1 = 'desc amount', amount1 = 0 , descAmount2 = 'desc amount', amount2 = 0 , className, ...rest }) => {
+const AmountBox = ({ descAmount1 = 'desc amount', amount1 = 0 , descAmount2 = 'desc amount', amount2 = 0 , currency, className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -51,7 +51,7 @@ const AmountBox = ({ descAmount1 = 'desc amount', amount1 = 0 , descAmount2 = 'd
             className={classes.label}
             color={'success'}
           >
-            {amount1}
+            <b>{amount1}</b>
           </Label>
         </Box>
         <Box display="flex" alignItems="center" flexWrap="wrap">
@@ -68,12 +68,12 @@ const AmountBox = ({ descAmount1 = 'desc amount', amount1 = 0 , descAmount2 = 'd
             className={classes.label}
             color={'success'}
           >
-            {amount2}
+            <b>{amount2}</b>
           </Label>
         </Box>
       </Box>
       <Avatar className={classes.avatar}>
-        <AttachMoneyIcon />
+        {currency !== undefined ? currency : <AttachMoneyIcon />}
       </Avatar>
     </Card>
   );

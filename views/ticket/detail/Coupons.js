@@ -8,19 +8,19 @@ const useStyles = makeStyles({
   },
 });
 const columns = [
-  { field: 'conjuntionTicketNumber', headerName: 'Doc' },
-  { field: 'couponNumber', headerName: 'Cpn' },
-  { field: 'StopOver', headerName: 'X/o' },
-  { field: 'Carrier', headerName: 'CD' },
-  { field: 'origin', headerName: 'From' },
-  { field: 'destination', headerName: 'To' },
-  { field: 'flightNumber', headerName: 'Flight' },
-  { field: 'Class', headerName: 'Class' },
-  { field: 'depatureDate', headerName: 'Flight Date' },
+  { field: 'conjuntionTicketNumber', headerName: 'Nro Boleto' },
+  { field: 'couponNumber', headerName: 'Cupon' },
+  { field: 'StopOver', headerName: 'Stop Over' },
+  { field: 'Carrier', headerName: 'Operador' },
+  { field: 'origin', headerName: 'Origen' },
+  { field: 'destination', headerName: 'Destino' },
+  { field: 'flightNumber', headerName: 'Nro Vuelo' },
+  { field: 'Class', headerName: 'Clase' },
+  { field: 'depatureDate', headerName: 'Fecha Vuelo' },
   { field: 'fareBasis', headerName: 'Fare Basis' },
-  { field: 'CouponStatus', headerName: 'Status' },
-  { field: 'FreeBaggageAllowance', headerName: 'Baggage' },
-  { field: 'FrequentFlyerReference', headerName: 'FFID' },
+  { field: 'CouponStatus', headerName: 'Estado' },
+  { field: 'FreeBaggageAllowance', headerName: 'Equipaje' },
+  { field: 'FrequentFlyerReference', headerName: 'Cod. Pax Frecuente' },
 ];
 
 
