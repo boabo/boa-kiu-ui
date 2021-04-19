@@ -12,7 +12,7 @@ const columns = [
   { field: 'nombre_mp', headerName: 'Desc.' },
   { field: 'moneda', headerName: 'Moneda' },
   { field: 'importe', headerName: 'Importe' },
-  { field: 'numero_tarjeta', headerName: 'Referencia' },
+  { field: 'referencia', headerName: 'Referencia' },
 ];
 
 
