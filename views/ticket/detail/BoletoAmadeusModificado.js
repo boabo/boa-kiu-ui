@@ -25,7 +25,7 @@ const BoletoAmadeusModificado = ({ data = [] }) => {
     return lastValue;
   }, []);
 
-  return <BasicTable tableName={"Forma de Pago Modificado"} data={dataWithId} columns={columns} />;
+  return <BasicTable tableName={"Forma de Pago Modificado en ERP"} data={dataWithId} columns={columns} />;
 };
 
 export default BoletoAmadeusModificado;

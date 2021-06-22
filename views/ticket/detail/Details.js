@@ -30,15 +30,21 @@ const Details = ({
   ...rest
 }) => {
   const classes = useStyles();
-
+  console.log("aqui llega el permiso 22222222",permission);
   const ticket = ticketInformation.data[0];
+  /*Aumentando para la forma de pago Tarjeta*/
+  const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
+  const fp_tarjeta = ticketInformation.forma_pago_tarjeta;
+  /******************************************/
   const {
     factura_erp: facturaErp,
     factura_libro_ventas: facturaLibroVentas,
     boleto_amadeus_modificado: boletoAmadeusModificado,
     datos_emision: datosEmision,
-  } = ticketInformation.data_erp;
+    /*Aumentando para las formas de pago ERP*/
+    formas_pago_erp_tarjeta:formas_pago_erp_tarjeta, 
 
+  } = ticketInformation.data_erp;
   return (
     <Grid
       className={clsx(classes.root, className)}
@@ -88,7 +94,16 @@ const Details = ({
       )}
 
       <Grid item lg={6} md={6} xl={6} xs={12}>
-        <Payments data={ticket.payment} />
+        <Payments data={ticket.payment} 
+                  dataTicket = {ticket} 
+                  dataErp = {ticketInformation} 
+                  fp_tarjeta_code = {fp_tarjeta_code} 
+                  initFilter={initFilter}
+                  formas_pago_erp_tarjeta = {formas_pago_erp_tarjeta}
+                  fp_tarjeta = {fp_tarjeta} 
+
+        /> 
+        {/* Aqui mandar el ticket con las condiciones que se dijo para habilitar el boton editar */}
       </Grid>
       <Grid item lg={6} md={6} xl={6} xs={12}>
         <BoletoAmadeusModificado data={boletoAmadeusModificado || []} />
