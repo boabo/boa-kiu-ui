@@ -12,7 +12,9 @@ const columns = [
   { field: 'nombre_mp', headerName: 'Desc.' },
   { field: 'moneda', headerName: 'Moneda' },
   { field: 'importe', headerName: 'Importe' },
-  { field: 'referencia', headerName: 'Referencia' },
+  //{ field: 'referencia', headerName: 'Referencia' },
+  { field: 'numero_tarjeta', headerName: 'Nro. Tarjeta' },
+  { field: 'codigo_tarjeta', headerName: 'Cod. Autorización' },
 ];
 
 
@@ -24,6 +26,8 @@ const BoletoAmadeusModificado = ({ data = [] }) => {
     });
     return lastValue;
   }, []);
+
+  console.log("aqui llega el dato ERP TARJETA",dataWithId);
 
   return <BasicTable tableName={"Forma de Pago Modificado en ERP"} data={dataWithId} columns={columns} />;
 };

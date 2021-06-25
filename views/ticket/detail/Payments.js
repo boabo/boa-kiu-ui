@@ -13,7 +13,9 @@ const columns = [
   { field: 'paymentDescription', headerName: 'Desc.' },
   { field: 'paymentCurrency', headerName: 'Moneda' },
   { field: 'paymentAmount', headerName: 'Importe' },
-  { field: 'reference', headerName: 'Referencia' },
+  //{ field: 'reference', headerName: 'Referencia' },
+  { field: 'creditCardNumber', headerName: 'Nro. Tarjeta' },
+  { field: 'authorizationCode', headerName: 'Cod. Autorización' },
 ];
 
 const Payments = ({ data, dataTicket, dataErp, fp_tarjeta_code , initFilter, formas_pago_erp_tarjeta, fp_tarjeta}) => {
@@ -231,13 +233,15 @@ useEffect(() => {
              
     } 
 
+   console.log("aqui llega para el permiso del ERP",dataErp.data_erp);
+
   },[formas_pago_erp_tarjeta,fp_tarjeta]);
 
   return (  
           <>
           <BasicTable tableName={"Forma de Pago Originales"} columns={columns} data={data} />
 
-            {dataTicket && dataTicket.countryCode == 'BO' && dataErpFp && (dataErpFp ? ((dataErpFp.datos != null && dataErpFp.datos != '') ? dataErpFp.datos[0].codigo : ''):'') == 'CC' &&(
+            {dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso : 0) != 0) && dataErpFp && (dataErpFp ? ((dataErpFp.datos != null && dataErpFp.datos != '') ? dataErpFp.datos[0].codigo : ''):'') == 'CC' &&(
             
              <ActionsMedioPagoTarjeta dataFormPago={data} 
                                       dataTicket = {dataTicket} 
