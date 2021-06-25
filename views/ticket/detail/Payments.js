@@ -65,7 +65,6 @@ const initFilterFp = (inputValue) => {
 };
 
 useEffect(() => {  
-    //console.log("aqui llega el dato para EL COD AUTORIZACION",dataTicket);
   if (formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') {  
     setMontoFpDefecto(formas_pago_erp_tarjeta[0].importe);
     setNroTarjetaDefecto(formas_pago_erp_tarjeta[0].numero_tarjeta);
@@ -106,7 +105,7 @@ useEffect(() => {
 
 
  useEffect(() => {  
-    if (formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') {      
+    if (formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') {    
       Pxp.apiClient
                 .doRequest({
                   url: 'ventas_facturacion/FormaPago/listarFormaPago',
@@ -211,7 +210,6 @@ useEffect(() => {
                     setFpDefecto2(resp2);
                   });  
       } else {
-        //console.log("aqui setear data");
         Pxp.apiClient
                   .doRequest({
                     url: 'ventas_facturacion/FormaPago/listarFormaPago',

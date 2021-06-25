@@ -247,10 +247,12 @@ const ActionsMedioPagoTarjeta = ({ dataFormPago, dataTicket, dataErp,  fp1Defect
       const [updateUrl, setUpdateUrl] = useState();
 
         useEffect(() => {        
-            if (dataTicket.countryCode == 'BO' && dataErp) {
+            if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.datos_emision : null) != null) {
               setUpdateUrl('boakiu/Boleto/modificarTarjetasErp');
+              console.log("aqui entra modificar ERP");
               //setUpdateUrl('boakiu/Boleto/modificarTarjetaStage');
             } else {
+              console.log("aqui entra modificar solo STAGE");
               setUpdateUrl('boakiu/Boleto/modificarTarjetaStage');
             }
         }, [dataTicket]);
