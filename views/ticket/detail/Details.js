@@ -30,7 +30,6 @@ const Details = ({
   ...rest
 }) => {
   const classes = useStyles();
-  console.log("aqui llega el permiso 22222222",ticketInformation);
   const ticket = ticketInformation.data[0];
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
