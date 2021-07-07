@@ -34,6 +34,7 @@ const Details = ({
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
   const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
+  const boleto_modificado_stage = ticketInformation.data[0].accountingPayment;
   /******************************************/
   console.log("Datos Servicio",ticketInformation);
   const {
@@ -45,6 +46,7 @@ const Details = ({
     formas_pago_erp_tarjeta:formas_pago_erp_tarjeta, 
 
   } = ticketInformation.data_erp;
+  
   return (
     <Grid
       className={clsx(classes.root, className)}
@@ -104,12 +106,13 @@ const Details = ({
         {/* Aqui mandar el ticket con las condiciones que se dijo para habilitar el boton editar */}
       </Grid>
       <Grid item lg={6} md={6} xl={6} xs={12}>
-        <BoletoAmadeusModificado data={boletoAmadeusModificado || []} />
+        <BoletoAmadeusModificado data={boleto_modificado_stage || []} />
       </Grid>
 
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <Concilliation data={ticket.concilliation} dataBoleto = {ticket}/>
       </Grid>
+
     </Grid>
   );
 };

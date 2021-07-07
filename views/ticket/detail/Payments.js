@@ -16,6 +16,8 @@ const columns = [
   //{ field: 'reference', headerName: 'Referencia' },
   { field: 'creditCardNumber', headerName: 'Nro. Tarjeta' },
   { field: 'authorizationCode', headerName: 'Cod. Autorización' },
+  { field: 'paymentInstanceCode', headerName: 'Cod. Instancia' },
+  { field: 'paymentInstanceDescription', headerName: 'Desc. Instancia' },
 ];
 
 const Payments = ({ data, dataTicket, dataErp, fp_tarjeta_code , initFilter, formas_pago_erp_tarjeta, fp_tarjeta}) => {

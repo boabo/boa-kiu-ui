@@ -22,6 +22,10 @@ import Pxp from "../../../../Pxp";
 
 import moment from 'moment';
 
+import DetalleConciliacion from "./DetalleConciliacion";
+import LoadingScreen from '../../../../_pxp/components/LoadingScreen';
+
+
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -87,36 +91,30 @@ const Concilliation = ({ data = [], dataBoleto }) => {
     return lastValue;    
   }, []);
 
-  console.log("aqui llega el data Boleto",dataBoleto);
-
   /*Funcion que llamara al servicio con los datos que se recuperara*/
 
   const [open, setOpen] = React.useState(false);
   const [respuesta, setRepuesta] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const recuperarDatos = (nro_autorizacion,nro_tarjeta) => {     
-    setOpen(true);
-    console.log("aqui llega lso datos",nro_autorizacion,nro_tarjeta);
-    setRepuesta(nro_autorizacion);
-
-    /*Llamar al servicio del GORO*/
+    setOpen(true);  
+    setLoading(true);
+    /*Llamar al servicio*/
     Pxp.apiClient
       .doRequest({
-        url: 'ventas_facturacion/FormaPago/listarFormaPago',
+        url: 'boakiu/Boleto/GetTicketData',
         params: {
-          start: '0',
-          limit: '10',
-          sort: 'id_medio_pago_pw',
-          dir: 'ASC',
-          boa_kiu: 'si',
-          codigo_fp: 'CASH',
-          sw_tipo_venta: 'BOLETOS',
-          regionales: 'BOL',
+          pnr: '',
+          issueDate: '',
+          nroTarjeta: nro_tarjeta,
+          codAutorizacion: nro_autorizacion,
+          tyCons: 'cod_aut',
         },
       })
       .then((resp) => {
-        //setRepuesta(resp.datos[0].codigo);   
-        console.log("aqui llega lso datos",resp);
+        setRepuesta(resp);   
+        setLoading(false);
       });  
 
 
@@ -150,6 +148,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                     <TableCell>Tarjeta</TableCell>
                     <TableCell>Monto</TableCell>
                     <TableCell>Fecha de Transacción</TableCell>
+                    <TableCell>Fecha de Cierre</TableCell>
                     <TableCell>Nro. Comercio</TableCell>
                     <TableCell>Nombre de Comercio</TableCell>
                     <TableCell>Lote</TableCell>                   
@@ -164,6 +163,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{row.CreditCardNumber}</TableCell>
                       <TableCell>{row.PaymentAmmount}</TableCell>
                       <TableCell>{moment(row.PaymentDate, 'YYYY-MM-DD').format('DD/MM/YYYY',)}</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>{row.TerminalNumber}</TableCell>
                       <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.EstablishmentCode))}</TableCell>
                       <TableCell>{row.LotNumber}</TableCell>
@@ -174,15 +174,21 @@ const Concilliation = ({ data = [], dataBoleto }) => {
               </Table>
             </TableContainer>
 
-            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+            {respuesta &&(        
+
+            <Dialog fullWidth="true"  maxWidth="lg" onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                     <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Detalle del Pago con Tarjeta {respuesta}
+                        DETALLE DE BOLETOS
                     </DialogTitle>
                     <DialogContent dividers>
-                        
+                        <DetalleConciliacion dataTarjeta = {respuesta} />
                     </DialogContent>                    
                 </Dialog>
 
+              
+            )}
+
+            {loading == true && <LoadingScreen />}
 
           </>
          );

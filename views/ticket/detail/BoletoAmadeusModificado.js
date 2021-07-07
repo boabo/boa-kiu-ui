@@ -8,13 +8,17 @@ const useStyles = makeStyles({
   },
 });
 const columns = [
-  { field: 'forma_pago', headerName: 'Codigo' },
-  { field: 'nombre_mp', headerName: 'Desc.' },
-  { field: 'moneda', headerName: 'Moneda' },
-  { field: 'importe', headerName: 'Importe' },
-  //{ field: 'referencia', headerName: 'Referencia' },
-  { field: 'numero_tarjeta', headerName: 'Nro. Tarjeta' },
-  { field: 'codigo_tarjeta', headerName: 'Cod. Autorización' },
+  { field: 'payCode', headerName: 'Codigo' },
+  { field: 'payDescription', headerName: 'Desc.' },
+  { field: 'payCurrency', headerName: 'Moneda' },
+  { field: 'payAmount', headerName: 'Importe' },
+  //{ field: 'reference', headerName: 'Referencia' },
+  { field: 'creditCardNumber', headerName: 'Nro. Tarjeta' },
+  { field: 'authorizationCode', headerName: 'Cod. Autorización' },
+  { field: 'payInstanceCode', headerName: 'Cod. Instancia' },
+  { field: 'payInstanceDescription', headerName: 'Desc. Instancia' },
+  //{ field: 'numero_tarjeta', headerName: 'Nro. Tarjeta' },
+  //{ field: 'codigo_tarjeta', headerName: 'Cod. Autorización' },
 ];
 
 
@@ -24,12 +28,11 @@ const BoletoAmadeusModificado = ({ data = [] }) => {
       ...value,
       id: index,
     });
+    console.log("aqui llega la respuesta para la TABLA",lastValue);
     return lastValue;
   }, []);
 
-  console.log("aqui llega el dato ERP TARJETA",dataWithId);
-
-  return <BasicTable tableName={"Forma de Pago Modificado en ERP"} data={dataWithId} columns={columns} />;
+  return <BasicTable tableName={"Forma de Pago Modificado"} data={dataWithId} columns={columns} />;
 };
 
 export default BoletoAmadeusModificado;
