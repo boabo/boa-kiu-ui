@@ -33,8 +33,9 @@ const Details = ({
   const ticket = ticketInformation.data[0];
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
-  const fp_tarjeta = ticketInformation.forma_pago_tarjeta;
+  const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
   /******************************************/
+  console.log("Datos Servicio",ticketInformation);
   const {
     factura_erp: facturaErp,
     factura_libro_ventas: facturaLibroVentas,
@@ -77,9 +78,7 @@ const Details = ({
           <Taxes data={ticket.taxes} />
         </Grid>
       )}
-      <Grid item lg={6} md={6} xl={6} xs={12}>
-        <Concilliation data={ticket.concilliation} />
-      </Grid>
+      
       {Array.isArray(facturaErp) && facturaErp.length > 0 && (
         <Grid item lg={6} md={6} xl={6} xs={12}>
           <FacturaErp data={facturaErp || []} />
@@ -106,6 +105,10 @@ const Details = ({
       </Grid>
       <Grid item lg={6} md={6} xl={6} xs={12}>
         <BoletoAmadeusModificado data={boletoAmadeusModificado || []} />
+      </Grid>
+
+      <Grid item lg={12} md={12} xl={12} xs={12}>
+        <Concilliation data={ticket.concilliation} dataBoleto = {ticket}/>
       </Grid>
     </Grid>
   );
