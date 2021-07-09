@@ -13,6 +13,10 @@ import Concilliation from './Concilliation';
 import FacturaErp from './FacturaErp';
 import BoletoAmadeusModificado from './BoletoAmadeusModificado';
 import FacturaLibroVentas from './FacturaLibroVentas';
+
+import EditIcon from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 /* import CustomerInfo from './CustomerInfo';
 import Emails from './Emails';
 import Invoices from './Invoices';
@@ -35,8 +39,9 @@ const Details = ({
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
   const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
   const boleto_modificado_stage = ticketInformation.data[0].accountingPayment;
+  const forma_pago_modificadas_stage = ticketInformation.forma_pago_modificadas_stage;
   /******************************************/
-  console.log("Datos Servicio",ticketInformation);
+  console.log("DATOS SERVICIO",ticket);
   const {
     factura_erp: facturaErp,
     factura_libro_ventas: facturaLibroVentas,
@@ -44,8 +49,10 @@ const Details = ({
     datos_emision: datosEmision,
     /*Aumentando para las formas de pago ERP*/
     formas_pago_erp_tarjeta:formas_pago_erp_tarjeta, 
+    
 
   } = ticketInformation.data_erp;
+  console.log("DATOS SERVICIO ERP",ticketInformation);
   
   return (
     <Grid
@@ -76,42 +83,51 @@ const Details = ({
         <FareCalc desc="fare Calc" value={ticket.fareCalculation} />
       </Grid>
       {ticket.taxes && (
-        <Grid item lg={6} md={6} xl={6} xs={12}>
+        <Grid item lg={12} md={12} xl={12} xs={12}>
           <Taxes data={ticket.taxes} />
         </Grid>
       )}
       
       {Array.isArray(facturaErp) && facturaErp.length > 0 && (
-        <Grid item lg={6} md={6} xl={6} xs={12}>
+        <Grid item lg={12} md={12} xl={12} xs={12}>
           <FacturaErp data={facturaErp || []} />
         </Grid>
       )}
 
       {!facturaErp && Array.isArray(facturaLibroVentas) && (
-        <Grid item lg={6} md={6} xl={6} xs={12}>
+        <Grid item lg={12} md={12} xl={12} xs={12}>
           <FacturaLibroVentas data={facturaLibroVentas || []} />
         </Grid>
       )}
 
-      <Grid item lg={6} md={6} xl={6} xs={12}>
+      <Grid item lg={12} md={12} xl={12} xs={12}>
         <Payments data={ticket.payment} 
                   dataTicket = {ticket} 
                   dataErp = {ticketInformation} 
-                  fp_tarjeta_code = {fp_tarjeta_code} 
-                  initFilter={initFilter}
-                  formas_pago_erp_tarjeta = {formas_pago_erp_tarjeta}
-                  fp_tarjeta = {fp_tarjeta} 
-
+                  initFilter={initFilter}                  
+                  fp_tarjeta = {fp_tarjeta}
+                  modificaciones_stage = {boleto_modificado_stage}
         /> 
+        
         {/* Aqui mandar el ticket con las condiciones que se dijo para habilitar el boton editar */}
       </Grid>
-      <Grid item lg={6} md={6} xl={6} xs={12}>
-        <BoletoAmadeusModificado data={boleto_modificado_stage || []} />
+      
+      {boleto_modificado_stage && (boleto_modificado_stage.length > 0) &&(
+      <Grid item lg={12} md={12} xl={12} xs={12}>
+        <BoletoAmadeusModificado data={boleto_modificado_stage || []}                                  
+                                 dataTicket = {ticket} 
+                                 dataErp = {ticketInformation} 
+                                 initFilter={initFilter}
+                                 formas_pago_erp_tarjeta = {forma_pago_modificadas_stage}                                 
+                                 modificaciones_stage = {boleto_modificado_stage}  />
       </Grid>
+      )} 
 
+      {ticket.concilliation && (ticket.concilliation.length > 0) &&(
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <Concilliation data={ticket.concilliation} dataBoleto = {ticket}/>
       </Grid>
+      )}
 
     </Grid>
   );

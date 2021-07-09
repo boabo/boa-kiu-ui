@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import BasicTable from '../../../../_pxp/components/BasicTable';
+import Pxp from "../../../../Pxp";
+import ActionsMedioPagoTarjeta from "./ActionsMedioPagoTarjeta";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 
 const useStyles = makeStyles({
   table: {
@@ -17,22 +21,145 @@ const columns = [
   { field: 'authorizationCode', headerName: 'Cod. Autorización' },
   { field: 'payInstanceCode', headerName: 'Cod. Instancia' },
   { field: 'payInstanceDescription', headerName: 'Desc. Instancia' },
+  
+
   //{ field: 'numero_tarjeta', headerName: 'Nro. Tarjeta' },
   //{ field: 'codigo_tarjeta', headerName: 'Cod. Autorización' },
 ];
 
 
-const BoletoAmadeusModificado = ({ data = [] }) => {
+const BoletoAmadeusModificado = ({ data = [], dataTicket, dataErp, initFilter, formas_pago_erp_tarjeta, modificaciones_stage }) => {
+  
+  const [dataErpFp, setFpDefecto] = useState(null);
+  const [dataErpFp2, setFpDefecto2] = useState(null);
+
+  const [montoFpDefecto, setMontoFpDefecto] = useState();
+  const [montoFpDefecto2, setMontoFpDefecto2] = useState();
+  const [nroTarjetaDefecto, setNroTarjetaDefecto] = useState();
+  const [nroTarjetaDefecto2, setNroTarjetaDefecto2] = useState();
+  const [nroAutorizacionDefecto, setNroAutorizacionDefecto] = useState();
+  const [nroAutorizacionDefecto2, setNroAutorizacionDefecto2] = useState();
+
+  
+  useEffect(() => {        
+      if (formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') { 
+        setMontoFpDefecto(formas_pago_erp_tarjeta[0].payAmount);
+        setNroTarjetaDefecto(formas_pago_erp_tarjeta[0].creditCardNumber);
+        setNroAutorizacionDefecto(formas_pago_erp_tarjeta[0].authorizationCode);
+
+        setMontoFpDefecto2(null);
+        setNroTarjetaDefecto2(null);
+        setNroAutorizacionDefecto2(null);
+
+        if (formas_pago_erp_tarjeta.length == 2) {
+          setMontoFpDefecto2(formas_pago_erp_tarjeta[1].payAmount);
+          setNroTarjetaDefecto2(formas_pago_erp_tarjeta[1].creditCardNumber);
+          setNroAutorizacionDefecto2(formas_pago_erp_tarjeta[1].authorizationCode);
+        }
+      }    
+  });
+
+  useEffect(() => {   
+    Pxp.apiClient
+              .doRequest({
+                url: 'ventas_facturacion/FormaPago/listarFormaPago',
+                params: {
+                  start: '0',
+                  limit: '10',
+                  sort: 'id_medio_pago_pw',
+                  dir: 'ASC',
+                  boa_kiu: 'si',
+                  codigo_fp: ((formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') ? (formas_pago_erp_tarjeta[0].payMethodCode):null),
+                  sw_tipo_venta: 'BOLETOS',
+                  regionales: 'BOL',
+                },
+              })
+              .then((resp) => {
+                setFpDefecto(resp);
+              }); 
+},[ formas_pago_erp_tarjeta ]);
+
+useEffect(() => {      
+  if (formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') { 
+    if (formas_pago_erp_tarjeta.length == 2) {
+      Pxp.apiClient
+                .doRequest({
+                  url: 'ventas_facturacion/FormaPago/listarFormaPago',
+                  params: {
+                    start: '0',
+                    limit: '10',
+                    sort: 'id_medio_pago_pw',
+                    dir: 'ASC',
+                    boa_kiu: 'si',
+                    codigo_fp: ((formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') ? (formas_pago_erp_tarjeta[1].payMethodCode):null),
+                    sw_tipo_venta: 'BOLETOS',
+                    regionales: 'BOL',
+                  },
+                })
+                .then((resp2) => {
+                  setFpDefecto2(resp2);
+                });  
+    } else {
+      Pxp.apiClient
+                .doRequest({
+                  url: 'ventas_facturacion/FormaPago/listarFormaPago',
+                  params: {
+                    start: '0',
+                    limit: '10',
+                    sort: 'id_medio_pago_pw',
+                    dir: 'ASC',
+                    boa_kiu: 'si',
+                    codigo_fp: null,
+                    sw_tipo_venta: 'BOLETOS',
+                    regionales: 'BOL',
+                  },
+                })
+                .then((resp2) => {
+                  setFpDefecto2(resp2);
+                });  
+    } 
+  
+  }
+  
+
+},[formas_pago_erp_tarjeta]);
+  
+  
   const dataWithId = data.reduce((lastValue, value, index) => {
     lastValue.push({
       ...value,
       id: index,
     });
-    console.log("aqui llega la respuesta para la TABLA",lastValue);
     return lastValue;
   }, []);
 
-  return <BasicTable tableName={"Forma de Pago Modificado"} data={dataWithId} columns={columns} />;
+  return (  
+            <>
+            <BasicTable tableName={"Forma de Pago Modificado"} data={dataWithId} columns={columns} />
+            <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
+           
+              {dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso : 0) != 0) && modificaciones_stage && 
+              
+              (modificaciones_stage.length > 0) && (
+              
+                <ActionsMedioPagoTarjeta  dataFormPago={data} 
+                                          dataTicket = {dataTicket} 
+                                          dataErp = {dataErp} 
+                                          fp1Defecto = {dataErpFp} 
+                                          montoFp = {montoFpDefecto}
+                                          nroTarjetaDefecto = {nroTarjetaDefecto}
+                                          nroAutorizacionDefecto = {nroAutorizacionDefecto}
+                                          initFilter={initFilter} 
+                                          fp2Defecto = {dataErpFp2} 
+                                          montoFp2 = {montoFpDefecto2}
+                                          nroTarjetaDefecto2 = {nroTarjetaDefecto2}
+                                          nroAutorizacionDefecto2 = {nroAutorizacionDefecto2}                                     
+                />
+              )} 
+                  
+            </ButtonGroup>
+            </>
+         );
 };
 
 export default BoletoAmadeusModificado;

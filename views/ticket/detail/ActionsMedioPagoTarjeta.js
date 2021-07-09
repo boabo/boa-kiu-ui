@@ -66,7 +66,7 @@ const styles = (theme) => ({
 
 
 
-const ActionsMedioPagoTarjeta = ({ dataFormPago, dataTicket, dataErp,  fp1Defecto, montoFp, nroTarjetaDefecto, nroAutorizacionDefecto, initFilter, fp2Defecto, montoFp2, nroTarjetaDefecto2, nroAutorizacionDefecto2, fpArray}) => {
+const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nroTarjetaDefecto, nroAutorizacionDefecto, initFilter, fp2Defecto, montoFp2, nroTarjetaDefecto2, nroAutorizacionDefecto2, fpArray}) => {
 
       const [open, setOpen] = React.useState(false);
 

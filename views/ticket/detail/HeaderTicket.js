@@ -104,7 +104,7 @@ const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
         },
       })
       .then((resp) => {
-        setDataPnr(resp);   
+        setDataPnr(resp);
         setLoading(false);  
       });  
     }

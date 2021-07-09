@@ -9,11 +9,14 @@ const useStyles = makeStyles({
 });
 const columns = [
   { field: 'IssueDate', headerName: 'Fecha Emisión' },
+  { field: 'PassengerName', headerName: 'Pasajero' },
   { field: 'PnrCode', headerName: 'PNR' },
   { field: 'TicketNumber', headerName: 'Nro. Boleto' },
   { field: 'OriginCity', headerName: 'Origen' },
   { field: 'DestinationCity', headerName: 'Destino' },
   { field: 'Transaction', headerName: 'Transacción' },
+  { field: 'TotalAmount', headerName: 'Importe' },
+  { field: 'Currency', headerName: 'Moneda' },
 ];
 
 

@@ -71,7 +71,7 @@ const ActionsMedioPago = ({ dataFormPago, dataTicket, dataErp }) => {
       };
 
 
-      const [updateUrl, setUpdateUrl] = useState();
+      /*const [updateUrl, setUpdateUrl] = useState();
 
     useEffect(() => {        
         if (dataTicket.countryCode == 'BO' && dataErp.datos_emision) {
@@ -79,7 +79,7 @@ const ActionsMedioPago = ({ dataFormPago, dataTicket, dataErp }) => {
         } else {
           setUpdateUrl('seguridad/Persona/guardarPersona');
         }
-    }, [dataTicket]);
+    }, [dataTicket]);*/
 
   
 
@@ -885,7 +885,7 @@ const ActionsMedioPago = ({ dataFormPago, dataTicket, dataErp }) => {
 
           },
 
-          onSubmit: { 
+          /* onSubmit: { 
 
             url: updateUrl,
             callback: (resp, dataForSending) => {
@@ -896,7 +896,7 @@ const ActionsMedioPago = ({ dataFormPago, dataTicket, dataErp }) => {
             extraParams: {
               
             },
-          },
+          }, */
 
         resetButton:false,
         submitLabel: 'Guardar'
