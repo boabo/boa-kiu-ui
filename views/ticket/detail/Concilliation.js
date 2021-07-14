@@ -149,7 +149,8 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                     <TableCell>Monto</TableCell>
                     <TableCell>Fecha de Transacción</TableCell>
                     <TableCell>Fecha de Cierre</TableCell>
-                    <TableCell>Nro. Comercio</TableCell>
+                    <TableCell>Cod. Establecimiento</TableCell>
+                    <TableCell>Nro. Terminal</TableCell>
                     <TableCell>Nombre de Comercio</TableCell>
                     <TableCell>Lote</TableCell>                   
                     <TableCell>Accion</TableCell>                   
@@ -164,8 +165,9 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{row.PaymentAmmount}</TableCell>
                       <TableCell>{moment(row.PaymentDate, 'YYYY-MM-DD').format('DD/MM/YYYY',)}</TableCell>
                       <TableCell></TableCell>
+                      <TableCell>{row.EstablishmentCode}</TableCell>
                       <TableCell>{row.TerminalNumber}</TableCell>
-                      <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.TerminalNumber))}</TableCell>
+                      <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.Formato = 'ATC' ? row.EstablishmentCode : row.TerminalNumber))}</TableCell>
                       <TableCell>{row.LotNumber}</TableCell>
                       <TableCell><Button variant="contained" color="primary" onClick={(e) => recuperarDatos(row.AuthorizationCode,row.CreditCardNumber)}>Detalle</Button></TableCell>                      
                     </TableRow>
