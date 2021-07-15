@@ -10,12 +10,14 @@ const useStyles = makeStyles({
 
 
 const columns = [
-  { field: 'estado', headerName: 'Estado' },
-  { field: 'fecha_factura', headerName: 'Fecha Factura' },
+  { field: 'razon_social_cli', headerName: 'Razón Social' },
+  { field: 'nit_ci_cli', headerName: 'NIT' },
+  { field: 'nro_factura', headerName: 'Nro. Documento' },
+  { field: 'nro_autorizacion', headerName: 'Nro. Autorización' },
+  { field: 'fecha_factura', headerName: 'Fecha Documento' },
   { field: 'importe_otros_no_suj_iva', headerName: 'Exento' },
   { field: 'importe_total_venta', headerName: 'Importe Total' },
-  { field: 'nro_autorizacion', headerName: 'Nro Aut' },
-  { field: 'nro_factura', headerName: 'Nro Documento' },
+  { field: 'estado', headerName: 'Estado' },  
 ];
 
 
@@ -27,7 +29,6 @@ const FacturaLibroVentas = ({ data = [] }) => {
     });
     return lastValue;
   }, []);
-
   return <BasicTable tableName={"Factura Libro de Ventas"} data={dataWithId} columns={columns} />;
 };
 
