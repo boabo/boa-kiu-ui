@@ -70,7 +70,7 @@ const DialogActions = withStyles((theme) => ({
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
-  }
+  },
 });
 const columns = [
   { field: 'Formato', headerName: 'Administradora' },
@@ -152,7 +152,8 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                     <TableCell>Cod. Establecimiento</TableCell>
                     <TableCell>Nro. Terminal</TableCell>
                     <TableCell>Nombre de Comercio</TableCell>
-                    <TableCell>Lote</TableCell>                   
+                    <TableCell>Lote</TableCell>  
+                    <TableCell>Observaciones</TableCell>                  
                     <TableCell>Accion</TableCell>                   
                   </TableRow>
                 </TableHead>
@@ -169,6 +170,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{row.TerminalNumber}</TableCell>
                       <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.Formato = 'ATC' ? row.EstablishmentCode : row.TerminalNumber))}</TableCell>
                       <TableCell>{row.LotNumber}</TableCell>
+                      <TableCell style={{color: ((row.MatchStatus == 'Conciliacion Correcta')?'green':'red')}}>{row.MatchStatus}</TableCell>
                       <TableCell><Button variant="contained" color="primary" onClick={(e) => recuperarDatos(row.AuthorizationCode,row.CreditCardNumber)}>Detalle</Button></TableCell>                      
                     </TableRow>
                   ))}
