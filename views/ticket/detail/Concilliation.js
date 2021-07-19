@@ -165,7 +165,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{row.CreditCardNumber}</TableCell>
                       <TableCell>{row.PaymentAmmount}</TableCell>
                       <TableCell>{moment(row.PaymentDate, 'YYYY-MM-DD').format('DD/MM/YYYY',)}</TableCell>
-                      <TableCell></TableCell>
+                      <TableCell>{moment(row.ReportDate, 'YYYY-MM-DD').format('DD/MM/YYYY',)}</TableCell>
                       <TableCell>{row.EstablishmentCode}</TableCell>
                       <TableCell>{row.TerminalNumber}</TableCell>
                       <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.Formato = 'ATC' ? row.EstablishmentCode : row.TerminalNumber))}</TableCell>
