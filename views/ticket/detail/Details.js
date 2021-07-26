@@ -14,6 +14,9 @@ import FacturaErp from './FacturaErp';
 import BoletoAmadeusModificado from './BoletoAmadeusModificado';
 import FacturaLibroVentas from './FacturaLibroVentas';
 
+import Devoluciones from './Devoluciones';
+
+
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
@@ -126,6 +129,12 @@ const Details = ({
       {ticket.concilliation && (ticket.concilliation.length > 0) &&(
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <Concilliation data={ticket.concilliation} dataBoleto = {ticket}/>
+      </Grid>
+      )}
+
+    {ticketInformation.data_erp.nota_debito_credito && (ticketInformation.data_erp.nota_debito_credito.length > 0) &&(
+      <Grid item lg={12} md={12} xl={12} xs={12}>
+        <Devoluciones data={ticketInformation.data_erp.nota_debito_credito}/>
       </Grid>
       )}
 

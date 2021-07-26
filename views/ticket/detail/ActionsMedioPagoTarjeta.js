@@ -85,7 +85,7 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
 
       let columns = {};
       let group = {};
-
+      console.log("aqui joden",fp1Defecto);
 
       countArray.forEach((e, index)=> {
         //console.log('e',e)
@@ -106,8 +106,8 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
 
         if (num == 2) {
           initialValueFp = [((fp2Defecto != null && fp2Defecto.total > 0) ? ({
-                                id_forma_pago:((fp2Defecto != null && fp2Defecto != '') ? fp2Defecto.datos[0].id_forma_pago : null),
-                                nombre:((fp2Defecto != null && fp2Defecto != '') ? fp2Defecto.datos[0].nombre : null)
+                                id_forma_pago:((fp2Defecto != null && fp2Defecto != '') ? ((fp2Defecto.datos[0] != undefined) ?? fp2Defecto.datos[0].id_forma_pago) : null),
+                                nombre:((fp2Defecto != null && fp2Defecto != '') ? ((fp2Defecto.datos[0] != undefined) ?? fp2Defecto.datos[0].nombre) : null)
                             }): null)];
 
           initialValueMonto = montoFp2;
@@ -117,8 +117,8 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
 
         } else {
           initialValueFp = [((fp1Defecto != null) ? ({
-                                id_forma_pago:((fp1Defecto != null && fp1Defecto != '') ? fp1Defecto.datos[0].id_forma_pago : null),
-                                nombre:((fp1Defecto != null && fp1Defecto != '') ? fp1Defecto.datos[0].nombre : null)
+                                id_forma_pago:((fp1Defecto != null && fp1Defecto != '') ? ((fp1Defecto.datos[0] != undefined) ?? fp1Defecto.datos[0].id_forma_pago) : null),
+                                nombre:((fp1Defecto != null && fp1Defecto != '') ? ((fp1Defecto.datos[0] != undefined) ?? fp1Defecto.datos[0].nombre) : null)
                             }): null)];
           
           initialValueMonto = montoFp;
