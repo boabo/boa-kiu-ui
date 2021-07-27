@@ -40,8 +40,7 @@ const BoletoAmadeusModificado = ({ data = [], dataTicket, dataErp, initFilter, f
   const [nroAutorizacionDefecto, setNroAutorizacionDefecto] = useState();
   const [nroAutorizacionDefecto2, setNroAutorizacionDefecto2] = useState();
 
-  
-  useEffect(() => {        
+    useEffect(() => {        
       if (formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') { 
         setMontoFpDefecto(formas_pago_erp_tarjeta[0].payAmount);
         setNroTarjetaDefecto(formas_pago_erp_tarjeta[0].creditCardNumber);
@@ -138,7 +137,7 @@ useEffect(() => {
             <BasicTable tableName={"Forma de Pago Modificado"} data={dataWithId} columns={columns} />
             <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
            
-              {dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso : 0) != 0) && modificaciones_stage && 
+              {dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso : 0) != 0) && dataErpFp && (dataErpFp ? ((dataErpFp.datos != null && dataErpFp.datos != '') ? dataErpFp.datos[0].codigo : ''):'') == 'CC' && 
               
               (modificaciones_stage.length > 0) && (
               

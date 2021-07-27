@@ -144,6 +144,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                 <TableHead className={useStyles.head}>
                   <TableRow>
                     <TableCell>Administradora</TableCell>
+                    <TableCell>Nro Comprobante</TableCell>
                     <TableCell>Autorizacion</TableCell>
                     <TableCell>Tarjeta</TableCell>
                     <TableCell>Monto</TableCell>
@@ -161,6 +162,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                   {dataWithId.map((row) => (
                     <TableRow>        
                       <TableCell>{row.Formato}</TableCell>
+                      <TableCell>{row.PaymentTicket}</TableCell>
                       <TableCell>{row.AuthorizationCode}</TableCell>
                       <TableCell>{row.CreditCardNumber}</TableCell>
                       <TableCell>{row.PaymentAmmount}</TableCell>
