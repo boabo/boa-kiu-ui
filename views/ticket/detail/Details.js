@@ -9,7 +9,7 @@ import Taxes from './Taxes';
 import Payments from './Payments';
 import Amounts from './Amounts';
 import HeaderTicket from './HeaderTicket';
-import Concilliation from './Concilliation';
+//import Concilliation from './Concilliation';
 import FacturaErp from './FacturaErp';
 import BoletoAmadeusModificado from './BoletoAmadeusModificado';
 import FacturaLibroVentas from './FacturaLibroVentas';
@@ -37,7 +37,7 @@ const Details = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const ticket = ticketInformation.data[0];
+  const ticket = ticketInformation.data[0];  
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
   const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
@@ -126,11 +126,11 @@ const Details = ({
       </Grid>
       )} 
 
-      {ticket.concilliation && (ticket.concilliation.length > 0) &&(
+      {/* {conciliationDetail.conciliacion_oficial != null &&(
       <Grid item lg={12} md={12} xl={12} xs={12}>
-        <Concilliation data={ticket.concilliation} dataBoleto = {ticket}/>
+        <Concilliation data={conciliationDetail.conciliacion_oficial} dataBoleto = {ticket}/>
       </Grid>
-      )}
+      )} */}
 
     {ticketInformation.data_erp.nota_debito_credito && (ticketInformation.data_erp.nota_debito_credito.length > 0) &&(
       <Grid item lg={12} md={12} xl={12} xs={12}>

@@ -11,6 +11,11 @@ import Details from './detail/Details';
 import useJsonStore from '../../../_pxp/hooks/useJsonStore';
 import Filter from './Filter';
 import LoadingScreen from '../../../_pxp/components/LoadingScreen';
+import { Grid } from '@material-ui/core';
+import Concilliation from './detail/Concilliation';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
+  },
+  carga: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
   },
 }));
 
@@ -45,7 +56,16 @@ const Ticket = () => {
     load: false,
   });
 
+  const { state: datosConciliation, set:envio, data: datosRecuConciliation, loading:cargaConsiliation } = useJsonStore({
+    url: 'boakiu/Boleto/getConcilliation',
+    params: {
+      nro_ticket: '',
+    },
+    load: false,
+  });
+
   const [ticketInformation, setTicketInformation] = useState();
+  const [conciliationDetail, setConsiliationDetail] = useState();
   // when the data has gotten an resp
   useEffect(() => {
     console.log(data);
@@ -53,6 +73,12 @@ const Ticket = () => {
       setTicketInformation(data);
     }
   }, [data]);
+
+  useEffect(() => { 
+    if (datosRecuConciliation) {
+      setConsiliationDetail(datosRecuConciliation);
+    }
+  }, [datosRecuConciliation]);
 
   const classes = useStyles();
   const [customer, setCustomer] = useState(null);
@@ -68,7 +94,19 @@ const Ticket = () => {
     setCurrentTab(value);
   };
 
+  const filterConcilliation = (inputValue) => {
+    console.log("Aqui llama al servicio de la conciliacion",inputValue);
+    envio({
+      ...datosConciliation,
+      params: {
+        nro_ticket: inputValue,
+      },
+      load: true,
+    });
+  };
+
   const initFilter = (inputValue) => {
+    console.log("Aqui llega el filtro para llamar la funcion de la conciliacion",inputValue);
     set({
       ...state,
       params: {
@@ -76,7 +114,13 @@ const Ticket = () => {
       },
       load: true,
     });
+
+    filterConcilliation(inputValue);
+
   };
+
+
+  
 
 
 
@@ -106,13 +150,31 @@ const Ticket = () => {
               {currentTab === 'details' &&
                 ticketInformation &&
                 ticketInformation.data && (
-                  <Details ticketInformation={ticketInformation} permission={permission} initFilter={initFilter}/>
+                  <Details ticketInformation={ticketInformation} permission={permission} initFilter={initFilter} filterConcilliation={filterConcilliation}/>
                 )}
               {currentTab === 'details' &&
                 ticketInformation &&
                 ticketInformation.errorTicket && (
                   <div>{ticketInformation.message}</div>
                 )}
+
+              {cargaConsiliation &&               
+              <div className={classes.carga}>               
+              <h2>Cargando Conciliación</h2>
+                <center><CircularProgress /></center>               
+              </div>}
+
+              {!cargaConsiliation && (
+                <div>
+                  <br/>
+                {currentTab === 'details' && conciliationDetail && conciliationDetail.conciliacion_oficial != null && (
+                  <Concilliation data={conciliationDetail.conciliacion_oficial} dataBoleto = {ticketInformation.data[0]}/>
+           
+                )} 
+                </div>
+              )}
+              
+               
               {/* {currentTab === 'invoices' && <Details />}
           {currentTab === 'logs' && <Details />} */}
             </Box>
