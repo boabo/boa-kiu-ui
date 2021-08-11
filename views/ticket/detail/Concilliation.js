@@ -148,6 +148,8 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                     <TableCell>Autorizacion</TableCell>
                     <TableCell>Tarjeta</TableCell>
                     <TableCell>Monto</TableCell>
+                    <TableCell>Porcentaje Comisión</TableCell>
+                    <TableCell>Monto Comisión</TableCell>
                     <TableCell>Fecha de Transacción</TableCell>
                     <TableCell>Fecha de Cierre</TableCell>
                     <TableCell>Cod. Establecimiento</TableCell>
@@ -166,6 +168,8 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{row.AuthorizationCode}</TableCell>
                       <TableCell>{row.CreditCardNumber}</TableCell>
                       <TableCell>{row.PaymentAmmount}</TableCell>
+                      <TableCell>{row.CommissionPercent}</TableCell>
+                      <TableCell>{row.CommissionAmount}</TableCell>
                       <TableCell>{moment(row.PaymentDate, 'YYYY-MM-DD').format('DD/MM/YYYY',)}</TableCell>
                       <TableCell>{moment(row.ReportDate, 'YYYY-MM-DD').format('DD/MM/YYYY',)}</TableCell>
                       <TableCell>{row.EstablishmentCode}</TableCell>
