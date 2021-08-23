@@ -33,6 +33,7 @@ const Details = ({
   ticketInformation,
   permission,
   initFilter,
+  cargaConsi,
   className,
   ...rest
 }) => {
@@ -41,7 +42,7 @@ const Details = ({
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
   const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
-  const boleto_modificado_stage = ticketInformation.data[0].accountingPayment;
+  const boleto_modificado_stage = ((ticketInformation.data[0] != '' && ticketInformation.data[0] != null && ticketInformation.data[0] != undefined)?ticketInformation.data[0].accountingPayment:null);
   const forma_pago_modificadas_stage = ticketInformation.forma_pago_modificadas_stage;
   /******************************************/
   console.log("DATOS SERVICIO",ticket);
@@ -56,6 +57,7 @@ const Details = ({
 
   } = ticketInformation.data_erp;
   console.log("DATOS SERVICIO ERP",ticketInformation);
+  
   
   return (
     <Grid
@@ -73,7 +75,7 @@ const Details = ({
         />
       </Grid>
       <Grid item lg={12} md={12} xl={12} xs={12}>
-        <Amounts ticket={ticket} />
+        <Amounts ticket={ticket} dataErp={ticketInformation.data_erp}/>
       </Grid>
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <TicketInfo ticket={ticket} datosEmision={datosEmision} />
@@ -103,6 +105,7 @@ const Details = ({
         </Grid>
       )}
 
+      
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <Payments data={ticket.payment} 
                   dataTicket = {ticket} 
@@ -110,6 +113,7 @@ const Details = ({
                   initFilter={initFilter}                  
                   fp_tarjeta = {fp_tarjeta}
                   modificaciones_stage = {boleto_modificado_stage}
+                  cargaConsi = {cargaConsi}
         /> 
         
         {/* Aqui mandar el ticket con las condiciones que se dijo para habilitar el boton editar */}
@@ -122,7 +126,8 @@ const Details = ({
                                  dataErp = {ticketInformation} 
                                  initFilter={initFilter}
                                  formas_pago_erp_tarjeta = {forma_pago_modificadas_stage}                                 
-                                 modificaciones_stage = {boleto_modificado_stage}  />
+                                 modificaciones_stage = {boleto_modificado_stage}
+                                 cargaConsi = {cargaConsi}  />
       </Grid>
       )} 
 

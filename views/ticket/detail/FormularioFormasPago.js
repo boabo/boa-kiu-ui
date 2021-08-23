@@ -1,27 +1,51 @@
-import React, { useRef } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import * as Yup from "yup";
 import Form from "../../../../_pxp/components/Form/Form";
 import Typography from "@material-ui/core/Typography";
 import Label from "../../../../_pxp/components/Label";
 import Box from "@material-ui/core/Box";
+import moment from 'moment';
+import { useSnackbar } from 'notistack';
 
-
-
-const ActionsMedioPagoTarjeta = ({ cantidad }) => {   
-      
-     /*Armar el json para generar las formas de pago*/
+const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilter, dataErp }) => {  
   
-     /* useEffect(() => {       
-        console.log("aqui llega el envio",cantidad);
-        
-    }, [cantidad]); */
+    console.log("aqui DATOS PARA LA COMISION",dataErp);
+      
+    const [updateUrl, setUpdateUrl] = useState();
+    useEffect(() => {        
+        if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.datos_emision : null) != null) {
+          setUpdateUrl('boakiu/MediosPagoBoleto/ModificarMedioPago');  
+          //setUpdateUrl('boakiu/MediosPagoBoleto/ModificarMedioPagoStage');                     
+          console.log("Modificaciones en ERP");          
+        } else {  
+          if (dataTicket.countryCode == 'BO') {
+            setUpdateUrl('boakiu/MediosPagoBoleto/ModificarMedioPagoStage');           
+            console.log("Modificaciones solo STAGE");  
+          }            
+                  
+        }
+    }, [dataTicket]);
     
+     const { enqueueSnackbar } = useSnackbar();
 
      const countArray = [...Array(cantidad).keys()];
 
      let columns = {};
      let group = {};
      let gridGroup = {};
+     let listar_recibo = '';
+
+
+     if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.datos_emision : null) != null) {
+       console.log("entra aqui para ERP");
+       listar_recibo = 'si';      
+    } else {  
+      if (dataTicket.countryCode == 'BO') {
+        console.log("aqui SOLO STAGE");
+        listar_recibo = 'no';
+      }            
+              
+    }
 
 
      countArray.forEach((e, index)=> {
@@ -30,15 +54,26 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
        const num =index+1;
 
        if (cantidad == 1) {
-        gridGroup = { xs: 12, sm: 12 };
-      } else if (cantidad == 2 ) {
         gridGroup = { xs: 12, sm: 6 };
-      } else if (cantidad == 3 ) {
+      } else if (cantidad == 2 ) {
         gridGroup = { xs: 12, sm: 4 };
+      } else if (cantidad == 3 ) {
+        gridGroup = { xs: 12, sm: 3 };
       } else if (cantidad >= 4 ){
         gridGroup = { xs: 12, sm: 3 };
       }
-     
+      
+      columns[`pay_Currency_${num}`] = {
+        type: 'TextField',
+        label: 'PayCurrency',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      }; 
+
+
        columns[`id_moneda_${num}`] = {
         type: 'AutoComplete',
         label: 'Moneda',
@@ -82,12 +117,66 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         },*/
         helperText: '',
         onChange: (obj) => {        
-          /**Aqui las validaciones para los medios de pago**/   
+          console.log("aqui llega de la moneda al seleccionar",obj);
+          /**Aqui las validaciones para los medios de pago**/  
+          obj.states[`id_venta_${num}`].store.set({
+            ...obj.states[`id_venta_${num}`].store.state,
+            params: {
+              ...obj.states[`id_venta_${num}`].store.state.params,
+              id_moneda: (obj.dataValue) != null ? obj.dataValue.id_moneda : null, // added the id_persona to params
+            },
+          });
+        
+          if (obj.dataValue != null ) {
+            obj.states[`pay_Currency_${num}`].setValue(obj.dataValue.codigo_internacional);
+          } else {
+            obj.states[`pay_Currency_${num}`].reset();
+          }
           
           /*************************************************/
         },
         group: `groupMedioPago${num}`,        
       };
+
+      columns[`pay_Code_${num}`] = {
+        type: 'TextField',
+        label: 'PayCode',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      }; 
+
+      columns[`pay_Description_${num}`] = {
+        type: 'TextField',
+        label: 'payDescription',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      }; 
+
+      columns[`pay_MethodCode_${num}`] = {
+        type: 'TextField',
+        label: 'payMethodCode',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      }; 
+
+      columns[`pay_MethodDescription_${num}`] = {
+        type: 'TextField',
+        label: 'payMethodDescription',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      }; 
 
        columns[`forma_pago_${num}`] = {
         type: 'AutoComplete',
@@ -101,7 +190,8 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
             sort: 'id_medio_pago_pw',
             dir: 'ASC',
             sw_tipo_venta: 'BOLETOS',
-            regionales: 'BOL',                   
+            regionales: 'BOL',
+            incluye_recibo : listar_recibo                 
           },
           parFilters: 'forpa.name#pago.fop_code',
           idDD: 'id_forma_pago',
@@ -133,12 +223,10 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         },*/
         helperText: '',
         onChange: (obj) => {        
-          /**Aqui las validaciones para los medios de pago**/ 
-          console.log("aqui llega el dato",obj);
+          /**Aqui las validaciones para los medios de pago**/           
 
           if (obj.dataValue != null) {
-            if (obj.dataValue.codigo == 'CA') {
-                console.log("aqui entra el dato por MP",obj);
+            if (obj.dataValue.codigo == 'CA') {                
                 obj.states[`num_tarjeta_${num}`].setIsHide(true);
                 obj.states[`cod_tarjeta_${num}`].setIsHide(true);
                 obj.states[`mco_${num}`].setIsHide(true);
@@ -206,13 +294,28 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
                 obj.states[`mco_${num}`].setIsHide(true);
                 obj.states[`id_auxiliar_${num}`].setIsHide(true);
                 obj.states[`id_auxiliar_anticipo_${num}`].setIsHide(false);
-                obj.states.id_venta_1.setIsHide(false);
+                obj.states[`id_venta_${num}`].setIsHide(false);
 
                 obj.states[`num_tarjeta_${num}`].reset();
                 obj.states[`cod_tarjeta_${num}`].reset();
                 obj.states[`mco_${num}`].reset();
                 obj.states[`id_auxiliar_${num}`].reset();
             }
+
+            if (obj.dataValue != null ) {
+              obj.states[`pay_Code_${num}`].setValue(obj.dataValue.codigo);
+              obj.states[`pay_Description_${num}`].setValue(obj.dataValue.nombre_fp);
+              obj.states[`pay_MethodCode_${num}`].setValue(obj.dataValue.codigo_fp);
+              obj.states[`pay_MethodDescription_${num}`].setValue(obj.dataValue.nombre);
+              
+              
+            } else {
+              obj.states[`pay_Code_${num}`].reset();
+              obj.states[`pay_Description_${num}`].reset();
+              obj.states[`pay_MethodCode_${num}`].reset();
+              obj.states[`pay_MethodDescription_${num}`].reset();
+            } 
+
           }
           /*************************************************/
         },
@@ -237,6 +340,7 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         initialValue: '',         
         validate: {
           shape: Yup.string().max(6, 'Tamaño maximo 6 digitos'),           
+          shape: Yup.string().min(6, 'Tamaño maximo 6 digitos'),           
         },
         group: `groupMedioPago${num}`,
       }; 
@@ -248,6 +352,27 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         initialValue: '',    
         group: `groupMedioPago${num}`,
       }; 
+
+
+      columns[`pay_InstanceDescription_${num}`] = {
+        type: 'TextField',
+        label: 'payInstanceDescription',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      }; 
+
+      columns[`pay_InstanceCode_${num}`] = {
+        type: 'TextField',
+        label: 'payInstanceDescription',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false,
+        //hide: true,
+      };
 
       columns[`id_auxiliar_${num}`] = {
         type: 'AutoComplete',
@@ -269,8 +394,7 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
           idDD: 'id_auxiliar',
           descDD: 'nombre_auxiliar',
           minChars: 2,
-          renderOption: (option) => {
-              console.log("aqui el option",option);
+          renderOption: (option) => {              
             return (
               <Box display="flex" alignItems="center">
                 <div>
@@ -287,7 +411,7 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
             )
           }
         },
-        remote: true,
+        remote: true,        
         //gridForm: { xs: 12, sm: 12 },
         variant: 'outlined',
         isSearchable: true,
@@ -296,7 +420,17 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         },*/
         helperText: '',
         onChange: (obj) => {        
-          /**Aqui las validaciones para los medios de pago**/                  
+          /**Aqui las validaciones para los medios de pago**/  
+          console.log("aqui llega data axuliar",obj);
+          if (obj.dataValue != null ) {
+            obj.states[`pay_InstanceDescription_${num}`].setValue(obj.dataValue.nombre_auxiliar);
+            obj.states[`pay_InstanceCode_${num}`].setValue(obj.dataValue.codigo_auxiliar);
+             
+          } else {
+            obj.states[`pay_InstanceDescription_${num}`].reset();
+            obj.states[`pay_InstanceCode_${num}`].reset();
+          } 
+                       
           /*************************************************/
         },
         group: `groupMedioPago${num}`,       
@@ -322,8 +456,7 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
           idDD: 'id_auxiliar',
           descDD: 'nombre_auxiliar',
           minChars: 2,
-          renderOption: (option) => {
-              console.log("aqui el option",option);
+          renderOption: (option) => {              
             return (
               <Box display="flex" alignItems="center">
                 <div>
@@ -348,12 +481,30 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
           shape: Yup.string().required('Required'),
         },*/
         helperText: '',
-        onChange: (obj) => {        
-          /**Aqui las validaciones para los medios de pago**/                  
+        onChange: (obj) => {          
+          /**Aqui las validaciones para los medios de pago**/  
+          console.log("aqui llega del anticipo",obj);
+          obj.states[`id_venta_${num}`].store.set({
+            ...obj.states[`id_venta_${num}`].store.state,
+            params: {
+              ...obj.states[`id_venta_${num}`].store.state.params,
+              id_auxiliar_anticipo: (obj.dataValue != null ? obj.dataValue.id_auxiliar : null), // added the id_persona to params
+            },
+          });                              
           /*************************************************/
         },
         group: `groupMedioPago${num}`,        
       }; 
+
+
+      columns[`saldo_recibo_${num}`] = {
+        type: 'TextField',
+        label: 'Saldo Recibo',
+        variant: 'outlined',
+        initialValue: '',  
+        group: `groupMedioPago${num}`,
+        form: false
+      };   
 
       columns[`id_venta_${num}`] = {
         type: 'AutoComplete',
@@ -369,14 +520,13 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
             dir: 'ASC',
             corriente: 'si',
             regionales: 'BOL',   
-            ro_activo: 'si',                
+            ro_activo: 'si',         
           },
           parFilters: 'v.nro_factura#v.nombre_factura',
           idDD: 'id_venta',
           descDD: 'nro_factura',
           minChars: 2,
-          renderOption: (option) => {
-              console.log("aqui el option",option);
+          renderOption: (option) => {              
             return (
               <Box display="flex" alignItems="center">
                 <div>
@@ -391,6 +541,8 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
                   <Label color="success">
                         <b>Monto:</b>
                         {option.total_venta} 
+                        <div dangerouslySetInnerHTML={{ __html: option.tex_saldo }}/>
+
                     </Label>
                 </div>
               </Box>
@@ -406,7 +558,14 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         },*/
         helperText: '',
         onChange: (obj) => {        
-          /**Aqui las validaciones para los medios de pago**/                  
+          /**Aqui las validaciones para los medios de pago**/       
+          console.log("aqui llega de la venta",obj);         
+           if (obj.dataValue != null ) {
+            obj.states[`saldo_recibo_${num}`].setValue(obj.dataValue.saldo);
+             
+          } else {
+            obj.states[`saldo_recibo_${num}`].reset();
+          }    
           /*************************************************/
         },
         group: `groupMedioPago${num}`,
@@ -417,11 +576,14 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
         type: 'TextField',
         label: 'Monto',
         variant: 'outlined',
-        initialValue: '',       
-        
-       /* validate: {
-          shape: Yup.string().max(6, 'Tamaño maximo 6 digitos').required('Este Campo es Requerido'),
-        },*/
+        initialValue: '',    
+        /* onChange: (obj) => {   
+
+          console.log("aqui el total de la venta",obj);
+          setTotalVentaDivision(totalVenta - obj.value);
+
+          console.log("aqui el total de la venta",totalVenta);
+        }, */
         group: `groupMedioPago${num}`,
       };
 
@@ -435,32 +597,153 @@ const ActionsMedioPagoTarjeta = ({ cantidad }) => {
      const jsonFormMp = {
       
         columns: { 
+
+          boleto_a_modificar: {
+            type: 'TextField',
+            label: 'BOLETO A MODIFICAR',
+            variant: 'outlined',  
+            initialValue: dataTicket.ticketNumber.trim(),            
+            /*validate: {
+              shape: Yup.string().required('Required'),
+            },*/
+            group: 'datos_boleto',
+            disabled: true
+            
+        },        
+
+        fecha_emision: {
+          type: 'TextField',
+          label: 'FECHA EMISIÓN',
+          variant: 'outlined',  
+          initialValue:  moment( dataTicket.issueDate, 'YYYY-MM-DD').format('YYYY-MM-DD',),            
+          /*validate: {
+            shape: Yup.string().required('Required'),
+          },*/
+          group: 'datos_boleto',
+          disabled: true
+          
+      },   
+
+      total_venta: {
+          type: 'TextField',
+          label: 'TOTAL BOLETO',
+          variant: 'outlined',  
+          initialValue:  dataTicket.totalAmount,            
+          /*validate: {
+            shape: Yup.string().required('Required'),
+          },*/
+          group: 'datos_boleto',
+          disabled: true
+          
+      },  
+
+      comision_venta: {
+        type: 'TextField',
+        label: 'COMISIÓN AGENCIA',
+        variant: 'outlined',  
+        initialValue:  (dataErp.data_erp.comision_erp != null ? dataErp.data_erp.comision_erp.comision.toString() : '0'),            
+        /*validate: {
+          shape: Yup.string().required('Required'),
+        },*/
+        group: 'datos_boleto',
+        disabled: true
+        
+    },
+
+    total_venta_comision: {
+      type: 'TextField',
+      label: 'TOTAL VENTA COMISIÓN',
+      variant: 'outlined',  
+      initialValue:  (dataErp.data_erp.comision_erp != null ? (dataTicket.totalAmount-dataErp.data_erp.comision_erp.comision).toString() : '0'),            
+      /*validate: {
+        shape: Yup.string().required('Required'),
+      },*/
+      group: 'datos_boleto',
+      disabled: true
+      
+  },
+
+      moneda_venta: {
+        type: 'TextField',
+        label: 'MONEDA',
+        variant: 'outlined',  
+        initialValue:  dataTicket.currency,            
+        /*validate: {
+          shape: Yup.string().required('Required'),
+        },*/
+        group: 'datos_boleto',
+        disabled: true
+        
+    },  
+
+       
+
           ...columns,
         },
 
         groups: {
+
+          datos_boleto: {
+            titleGroup: 'Datos del Boleto', 
+            gridGroup : gridGroup
+          },
+
           ...group,
           },
 
 
            onSubmit: {       
 
-            url: 'boakiu/MediosPagoBoleto/ModificarMedioPago',
+            url: updateUrl,
             callback: (resp, dataForSending, obj) => {
+
+              if (resp.success) {
+                enqueueSnackbar(
+                  <div>                    
+                    <pre
+                      style={{
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-all',
+                      }}
+                    >
+                      {resp.data.mensaje_exito}
+                    </pre>
+                  </div>,
+                  {
+                    variant: 'success',
+                    persist: false,
+                  },
+                );
+      
+                CerrarVentana(false);
+                initFilter(dataTicket.ticketNumber.trim());
+
+              } else {
+                CerrarVentana(false);
+                enqueueSnackbar(resp.data.mensaje_exito,{
+                  variant: 'error',
+                });
+              }
 
             },
             
 
 
             extraParams: {  
-              cantidad_fp : cantidad
+              cantidad_fp : cantidad,   
+              boleto :  dataTicket.ticketNumber.trim(),
+              fecha_boleto :  moment( dataTicket.issueDate, 'YYYY-MM-DD').format('YYYY-MM-DD',),   
+              datos_modificados : JSON.stringify(dataTicket.accountingPayment),
+              total_venta : dataTicket.totalAmount,
+              moneda_venta : dataTicket.currency,
+              comision_venta : (dataErp.data_erp.comision_erp != null ? dataErp.data_erp.comision_erp.comision.toString() : '0')
             },
 
             
           }, 
 
         resetButton:false,
-        submitLabel: false
+        submitLabel: 'Guardar'
     }; 
 
 

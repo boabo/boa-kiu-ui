@@ -27,9 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Amounts = ({ ticket, className, ...rest }) => {
-  const classes = useStyles();
-
+const Amounts = ({ ticket, dataErp, className, ...rest }) => {
+  const classes = useStyles();  
   const { taxes = [] } = ticket;
   console.log('taxesss', taxes);
   const impuestoNacional = taxes.reduce((last, newData) => {
@@ -113,6 +112,18 @@ const Amounts = ({ ticket, className, ...rest }) => {
             currency={ticket.currency}
           />
         </Grid>
+        <Grid item lg={3} sm={3} xs={12}>
+          <AmountBox         
+            descAmount1="Comision Agencia"
+            amount1={currencyFormat({ value: (dataErp.comision_erp != '' && dataErp.comision_erp != undefined && dataErp.comision_erp != null) ? dataErp.comision_erp.comision : '0', withCode: false })}
+            currency={ticket.currency}
+
+            descAmount2=""
+            amount2=""
+            currency={ticket.currency}
+          />
+        </Grid>
+
       </Grid>
     </Container>
   );

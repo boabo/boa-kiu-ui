@@ -69,8 +69,10 @@ const Ticket = () => {
   // when the data has gotten an resp
   useEffect(() => {
     console.log(data);
-    if (data) {
+    if (data) {     
+      console.log("aqui llega data",data);
       setTicketInformation(data);
+      filterConcilliation((data != null && data != '' && data != undefined) ? ((data.data != '' && data.data != undefined)?data.data[0].ticketNumber.trim():null):null); 
     }
   }, [data]);
 
@@ -95,7 +97,7 @@ const Ticket = () => {
   };
 
   const filterConcilliation = (inputValue) => {
-    console.log("Aqui llama al servicio de la conciliacion",inputValue);
+    console.log("Servicio de Conciliacion Llamado",inputValue);
     envio({
       ...datosConciliation,
       params: {
@@ -105,8 +107,7 @@ const Ticket = () => {
     });
   };
 
-  const initFilter = (inputValue) => {
-    console.log("Aqui llega el filtro para llamar la funcion de la conciliacion",inputValue);
+  const initFilter = (inputValue) => {    
     set({
       ...state,
       params: {
@@ -114,13 +115,8 @@ const Ticket = () => {
       },
       load: true,
     });
-
-    filterConcilliation(inputValue);
-
-  };
-
-
-  
+   
+  }; 
 
 
 
@@ -150,7 +146,7 @@ const Ticket = () => {
               {currentTab === 'details' &&
                 ticketInformation &&
                 ticketInformation.data && (
-                  <Details ticketInformation={ticketInformation} permission={permission} initFilter={initFilter} filterConcilliation={filterConcilliation}/>
+                  <Details ticketInformation={ticketInformation} permission={permission} initFilter={initFilter} cargaConsi = {cargaConsiliation}/>
                 )}
               {currentTab === 'details' &&
                 ticketInformation &&
