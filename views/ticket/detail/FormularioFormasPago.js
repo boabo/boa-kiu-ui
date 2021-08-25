@@ -185,7 +185,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
        columns[`forma_pago_${num}`] = {
         type: 'AutoComplete',
         label: 'Medio Pago',
-        initialValue: paymentOriginales == 'si' ? (medio_pago_defecto[num_array] != undefined ? medio_pago_defecto[num_array].data_medio_pago[0] : null):(medio_pago_defecto[num_array] != undefined ? medio_pago_defecto[num_array].data_medio_pago[0] : null),
+        initialValue: paymentOriginales == 'si' ? ((medio_pago_defecto[num_array] != undefined && medio_pago_defecto[num_array] != '' && medio_pago_defecto[num_array] != null) ? ((medio_pago_defecto[num_array].data_medio_pago[0] != null && medio_pago_defecto[num_array].data_medio_pago[0] != '' && medio_pago_defecto[num_array].data_medio_pago[0] != undefined) ? medio_pago_defecto[num_array].data_medio_pago[0] : null) : null):(medio_pago_defecto[num_array] != undefined ? ((medio_pago_defecto[num_array].data_medio_pago[0] != null && medio_pago_defecto[num_array].data_medio_pago[0] != '' && medio_pago_defecto[num_array].data_medio_pago[0] != undefined ) ? medio_pago_defecto[num_array].data_medio_pago[0]:null) : null),
         store: {
           url: 'ventas_facturacion/FormaPago/listarFormaPago',
           params: {
