@@ -44,6 +44,8 @@ const Details = ({
   const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
   const boleto_modificado_stage = ((ticketInformation.data[0] != '' && ticketInformation.data[0] != null && ticketInformation.data[0] != undefined)?ticketInformation.data[0].accountingPayment:null);
   const forma_pago_modificadas_stage = ticketInformation.forma_pago_modificadas_stage;
+  const medios_pago_defecto_modificados = ((ticketInformation.medios_pago_Defecto != '' && ticketInformation.medios_pago_Defecto != null && ticketInformation.medios_pago_Defecto != undefined)?ticketInformation.medios_pago_Defecto:null);
+  const medio_pago_originales = ((ticketInformation.medios_pago_Defecto_original != '' && ticketInformation.medios_pago_Defecto_original != null && ticketInformation.medios_pago_Defecto_original != undefined)?ticketInformation.medios_pago_Defecto_original:null);
   /******************************************/
   console.log("DATOS SERVICIO",ticket);
   const {
@@ -114,6 +116,8 @@ const Details = ({
                   fp_tarjeta = {fp_tarjeta}
                   modificaciones_stage = {boleto_modificado_stage}
                   cargaConsi = {cargaConsi}
+                  medio_pago_defecto = {medio_pago_originales}
+                  paymentOriginales = 'si'
         /> 
         
         {/* Aqui mandar el ticket con las condiciones que se dijo para habilitar el boton editar */}
@@ -127,7 +131,9 @@ const Details = ({
                                  initFilter={initFilter}
                                  formas_pago_erp_tarjeta = {forma_pago_modificadas_stage}                                 
                                  modificaciones_stage = {boleto_modificado_stage}
-                                 cargaConsi = {cargaConsi}  />
+                                 cargaConsi = {cargaConsi} 
+                                 medio_pago_defecto = {medios_pago_defecto_modificados}
+                                 paymentOriginales = 'no' />
       </Grid>
       )} 
 

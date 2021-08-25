@@ -29,7 +29,7 @@ const columns = [
 ];
 
 
-const BoletoAmadeusModificado = ({ data = [], dataTicket, dataErp, initFilter, formas_pago_erp_tarjeta, modificaciones_stage, cargaConsi }) => {
+const BoletoAmadeusModificado = ({ data = [], dataTicket, dataErp, initFilter, formas_pago_erp_tarjeta, modificaciones_stage, cargaConsi, medio_pago_defecto, paymentOriginales }) => {
   
   const [dataErpFp, setFpDefecto] = useState(null);
   const [dataErpFp2, setFpDefecto2] = useState(null);
@@ -162,7 +162,7 @@ useEffect(() => {
 
               {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion_medio_pago.permiso : 0) != 0) &&  
               (modificaciones_stage.length > 0) &&( 
-                  <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp}/>
+                  <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp} total_medios_pago = {modificaciones_stage.length} medio_pago_defecto = {medio_pago_defecto} data_defecto = {modificaciones_stage} paymentOriginales={paymentOriginales}/>
                 )}
                   
             </ButtonGroup>

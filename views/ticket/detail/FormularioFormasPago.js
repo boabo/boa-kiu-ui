@@ -7,9 +7,12 @@ import Box from "@material-ui/core/Box";
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 
-const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilter, dataErp }) => {  
+const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilter, dataErp, medio_pago_defecto, data_defecto, paymentOriginales }) => {  
   
-    console.log("aqui DATOS PARA LA COMISION",dataErp);
+    console.log("aqui DATOS PARA LA dataTicket",dataTicket);
+    console.log("aqui DATOS PARA LA medio_pago_defecto",medio_pago_defecto);
+    console.log("aqui DATOS PARA LA data_defecto",data_defecto);
+    console.log("aqui DATOS PARA LA paymentOriginales",paymentOriginales);
       
     const [updateUrl, setUpdateUrl] = useState();
     useEffect(() => {        
@@ -52,7 +55,8 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
        //console.log('e',e)
        //console.log('index',index)
        const num =index+1;
-
+       const num_array =index;
+       
        if (cantidad == 1) {
         gridGroup = { xs: 12, sm: 6 };
       } else if (cantidad == 2 ) {
@@ -67,7 +71,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'PayCurrency',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: (paymentOriginales == 'si' ? (((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].paymentCurrency : null) : null)) : ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payCurrency : null) : null)),  
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -77,7 +81,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
        columns[`id_moneda_${num}`] = {
         type: 'AutoComplete',
         label: 'Moneda',
-        initialValue: null,
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? {id_moneda : (data_defecto[num_array].paymentCurrency = 'BOB')?1:2, codigo_internacional:data_defecto[num_array].paymentCurrency } : null) : null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? {id_moneda : (data_defecto[num_array].payCurrency = 'BOB')?1:2, codigo_internacional:data_defecto[num_array].payCurrency } : null) : null),
         store: {
           url: 'parametros/Moneda/listarMoneda',
           params: {
@@ -142,7 +146,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'PayCode',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].paymentCode: null) : null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payCode: null) : null),  
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -152,7 +156,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'payDescription',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].paymentDescription :null ): null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payDescription :null ): null),
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -162,7 +166,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'payMethodCode',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].paymentMethodCode : null ): null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payMethodCode : null ): null),
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -172,7 +176,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'payMethodDescription',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payMethodDescription : null ): null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payMethodDescription : null ): null),
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -181,7 +185,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
        columns[`forma_pago_${num}`] = {
         type: 'AutoComplete',
         label: 'Medio Pago',
-        initialValue: '',
+        initialValue: paymentOriginales == 'si' ? (medio_pago_defecto[num_array] != undefined ? medio_pago_defecto[num_array].data_medio_pago[0] : null):(medio_pago_defecto[num_array] != undefined ? medio_pago_defecto[num_array].data_medio_pago[0] : null),
         store: {
           url: 'ventas_facturacion/FormaPago/listarFormaPago',
           params: {
@@ -326,23 +330,30 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
          type: 'TextField',
          label: 'Número de Tarjeta',
          variant: 'outlined',
-         initialValue: '',         
+         initialValue: ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].creditCardNumber.trim() : null) : null),         
          validate: {
            shape: Yup.string().max(20, 'Tamaño maximo 20 digitos'),           
          },
          group: `groupMedioPago${num}`,
+         hide: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? (data_defecto[num_array].creditCardNumber.trim() != '' ? false : true):true) : true):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? (data_defecto[num_array].creditCardNumber!='' ? false : true):true) : true),
        };    
        
        columns[`cod_tarjeta_${num}`] = {
         type: 'TextField',
         label: 'Código de Tarjeta',
-        variant: 'outlined',
-        initialValue: '',         
+        variant: 'outlined',     
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].authorizationCode.trim() : null) : null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].authorizationCode : null) : null),         
         validate: {
           shape: Yup.string().max(6, 'Tamaño maximo 6 digitos'),           
           shape: Yup.string().min(6, 'Tamaño maximo 6 digitos'),           
         },
+        onChange: (obj) => {   
+          obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase());
+          console.log("Aqui llega el cambio",obj); 
+          console.log("Aqui llega el cambio",obj.value.toUpperCase()); 
+        },
         group: `groupMedioPago${num}`,
+        hide: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? ((data_defecto[num_array].authorizationCode.trim() != '') ? false:true) : true) : true ):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? ((data_defecto[num_array].authorizationCode != '') ? false:true) : true) : true )
       }; 
 
       columns[`mco_${num}`] = {
@@ -351,6 +362,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         variant: 'outlined',
         initialValue: '',    
         group: `groupMedioPago${num}`,
+        hide:true
       }; 
 
 
@@ -358,7 +370,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'payInstanceDescription',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payInstanceDescription:null) : null), 
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -368,7 +380,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'payInstanceDescription',
         variant: 'outlined',
-        initialValue: '',  
+        initialValue: ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payInstanceCode : null) : null), 
         group: `groupMedioPago${num}`,
         form: false,
         //hide: true,
@@ -576,7 +588,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         type: 'TextField',
         label: 'Monto',
         variant: 'outlined',
-        initialValue: '',    
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].paymentAmount.toString() : null) : null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? data_defecto[num_array].payAmount.toString() : null) : null),
         /* onChange: (obj) => {   
 
           console.log("aqui el total de la venta",obj);

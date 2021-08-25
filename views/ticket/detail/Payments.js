@@ -21,7 +21,7 @@ const columns = [
   { field: 'paymentInstanceDescription', headerName: 'Desc. Instancia' },
 ];
 
-const Payments = ({ data, dataTicket, dataErp, initFilter, fp_tarjeta, modificaciones_stage, cargaConsi}) => {
+const Payments = ({ data, dataTicket, dataErp, initFilter, fp_tarjeta, modificaciones_stage, cargaConsi, medio_pago_defecto, paymentOriginales}) => {
 
   /*AUMENTANDO PAR RECUPERAR LAS FORMAS DE PAGO POR DEFECTO*/
 const [dataErpFp, setFpDefecto] = useState(null);
@@ -143,7 +143,7 @@ if (fp_tarjeta.length == 2) {
 
                 {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso_modificacion_medio_pago : 0) != 0) &&  
                   (modificaciones_stage.length == 0) && 
-                (   <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp}/>
+                (   <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp} total_medios_pago = {medio_pago_defecto.length} medio_pago_defecto = {medio_pago_defecto} data_defecto = {dataTicket.payment} paymentOriginales={paymentOriginales}/>
                 
                 )}      
 

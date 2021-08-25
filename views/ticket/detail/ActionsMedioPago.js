@@ -67,7 +67,7 @@ const styles = (theme) => ({
 
 
 
-const ActionsMedioPago = ({dataTicket, initFilter, dataErp}) => {
+const ActionsMedioPago = ({dataTicket, initFilter, dataErp, total_medios_pago, medio_pago_defecto, data_defecto, paymentOriginales}) => {
       
       const classes = useStyles();
 
@@ -88,10 +88,9 @@ const ActionsMedioPago = ({dataTicket, initFilter, dataErp}) => {
         setOpen(valor);
       };
 
-      
-
-      const [cant_fp, setCantFp] = React.useState(1);
-      const [envio, setEnvio] = React.useState(1);
+     
+      const [cant_fp, setCantFp] = React.useState(total_medios_pago);
+      const [envio, setEnvio] = React.useState(total_medios_pago);
 
       const reducirFp = () => {
         setCantFp(cant_fp-1);        
@@ -101,6 +100,11 @@ const ActionsMedioPago = ({dataTicket, initFilter, dataErp}) => {
         setCantFp(cant_fp+1);  
       };
       
+      useEffect(() => {       
+        setEnvio(total_medios_pago);  
+        setCantFp(total_medios_pago);  
+      }, [total_medios_pago]);    
+
 
       useEffect(() => {       
         setEnvio(cant_fp);
@@ -130,7 +134,7 @@ const ActionsMedioPago = ({dataTicket, initFilter, dataErp}) => {
                         Formulario para Modificar Medios de Pago
                     </DialogTitle>
                     <DialogContent dividers>     
-                         <FormularioFormasPago key={envio} cantidad={envio} dataTicket ={dataTicket} CerrarVentana = {cerrarVentana} initFilter = {initFilter} dataErp = {dataErp}/>
+                         <FormularioFormasPago key={envio} cantidad={envio} dataTicket ={dataTicket} CerrarVentana = {cerrarVentana} initFilter = {initFilter} dataErp = {dataErp} medio_pago_defecto = {medio_pago_defecto} data_defecto={data_defecto} paymentOriginales={paymentOriginales}/>
                     </DialogContent>           
                     <DialogActions>
                       {(cant_fp > 1) && (<Button onClick={reducirFp} color="primary">
