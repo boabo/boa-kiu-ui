@@ -141,7 +141,7 @@ if (fp_tarjeta.length == 2) {
                   
                 )}      
 
-                {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso_modificacion_medio_pago : 0) != 0) &&  
+                {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion_medio_pago.permiso : 0) != 0) &&  
                   (modificaciones_stage.length == 0) && 
                 (   <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp} total_medios_pago = {medio_pago_defecto.length} medio_pago_defecto = {medio_pago_defecto} data_defecto = {dataTicket.payment} paymentOriginales={paymentOriginales}/>
                 
