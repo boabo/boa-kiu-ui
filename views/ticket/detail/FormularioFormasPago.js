@@ -81,7 +81,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
        columns[`id_moneda_${num}`] = {
         type: 'AutoComplete',
         label: 'Moneda',
-        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? {id_moneda : (data_defecto[num_array].paymentCurrency = 'BOB')?1:2, codigo_internacional:data_defecto[num_array].paymentCurrency } : null) : null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? {id_moneda : (data_defecto[num_array].payCurrency = 'BOB')?1:2, codigo_internacional:data_defecto[num_array].payCurrency } : null) : null),
+        initialValue: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? {id_moneda : (data_defecto[num_array].paymentCurrency == 'BOB')?1:2, codigo_internacional:data_defecto[num_array].paymentCurrency } : null) : null):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? {id_moneda : (data_defecto[num_array].payCurrency == 'BOB')?1:2, codigo_internacional:data_defecto[num_array].payCurrency } : null) : null),
         store: {
           url: 'parametros/Moneda/listarMoneda',
           params: {
