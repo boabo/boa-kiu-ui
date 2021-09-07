@@ -42,10 +42,10 @@ const Details = ({
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
   const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
-  const boleto_modificado_stage = ((ticketInformation.data[0] != '' && ticketInformation.data[0] != null && ticketInformation.data[0] != undefined)?ticketInformation.data[0].accountingPayment:null);
+  const boleto_modificado_stage = ((ticketInformation.medios_pago_modificadas_stage != '' && ticketInformation.medios_pago_modificadas_stage != null && ticketInformation.medios_pago_modificadas_stage != undefined)?ticketInformation.medios_pago_modificadas_stage:null);
   const forma_pago_modificadas_stage = ticketInformation.forma_pago_modificadas_stage;
   const medios_pago_defecto_modificados = ((ticketInformation.medios_pago_Defecto != '' && ticketInformation.medios_pago_Defecto != null && ticketInformation.medios_pago_Defecto != undefined)?ticketInformation.medios_pago_Defecto:null);
-  const medio_pago_originales = ((ticketInformation.medios_pago_Defecto_original != '' && ticketInformation.medios_pago_Defecto_original != null && ticketInformation.medios_pago_Defecto_original != undefined)?ticketInformation.medios_pago_Defecto_original:null);
+  const medio_pago_originales = ((ticketInformation.medios_pago_originales_stage != '' && ticketInformation.medios_pago_originales_stage != null && ticketInformation.medios_pago_originales_stage != undefined)?ticketInformation.medios_pago_originales_stage:null);
   /******************************************/
   console.log("DATOS SERVICIO",ticket);
   const {
@@ -59,8 +59,7 @@ const Details = ({
 
   } = ticketInformation.data_erp;
   console.log("DATOS SERVICIO ERP",ticketInformation);
-  
-  
+    
   return (
     <Grid
       className={clsx(classes.root, className)}

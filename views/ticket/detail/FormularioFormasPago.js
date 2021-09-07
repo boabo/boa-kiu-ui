@@ -13,10 +13,11 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
     console.log("aqui DATOS PARA LA medio_pago_defecto",medio_pago_defecto);
     console.log("aqui DATOS PARA LA data_defecto",data_defecto);
     console.log("aqui DATOS PARA LA paymentOriginales",paymentOriginales);
+    console.log("Aqui llega del ERP para VER CUAL MANDA",dataErp.data_erp.existe_erp);
       
     const [updateUrl, setUpdateUrl] = useState();
     useEffect(() => {        
-        if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.datos_emision : null) != null) {
+        if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.existe_erp : 'no') == 'si') {
           setUpdateUrl('boakiu/MediosPagoBoleto/ModificarMedioPago');  
           //setUpdateUrl('boakiu/MediosPagoBoleto/ModificarMedioPagoStage');                     
           console.log("Modificaciones en ERP");          
@@ -39,7 +40,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
      let listar_recibo = '';
 
 
-     if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.datos_emision : null) != null) {
+     if (dataTicket.countryCode == 'BO' && ((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.existe_erp : 'no') == 'si') {
        console.log("entra aqui para ERP");
        listar_recibo = 'si';      
     } else {  
