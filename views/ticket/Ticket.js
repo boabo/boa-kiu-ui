@@ -72,7 +72,7 @@ const Ticket = () => {
     if (data) {     
       console.log("aqui llega data",data);
       setTicketInformation(data);
-      //filterConcilliation((data != null && data != '' && data != undefined) ? ((data.data != '' && data.data != undefined)?data.data[0].ticketNumber.trim():null):null); 
+      filterConcilliation((data != null && data != '' && data != undefined) ? ((data.data != '' && data.data != undefined)?data.data[0].ticketNumber.trim():null):null); 
     }
   }, [data]);
 
