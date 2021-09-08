@@ -45,7 +45,7 @@ const Details = ({
   const boleto_modificado_stage = ((ticketInformation.medios_pago_modificadas_stage != '' && ticketInformation.medios_pago_modificadas_stage != null && ticketInformation.medios_pago_modificadas_stage != undefined)?ticketInformation.medios_pago_modificadas_stage:null);
   const forma_pago_modificadas_stage = ticketInformation.forma_pago_modificadas_stage;
   const medios_pago_defecto_modificados = ((ticketInformation.medios_pago_Defecto != '' && ticketInformation.medios_pago_Defecto != null && ticketInformation.medios_pago_Defecto != undefined)?ticketInformation.medios_pago_Defecto:null);
-  const medio_pago_originales = ((ticketInformation.medios_pago_originales_stage != '' && ticketInformation.medios_pago_originales_stage != null && ticketInformation.medios_pago_originales_stage != undefined)?ticketInformation.medios_pago_originales_stage:null);
+  const medio_pago_originales = ((ticketInformation.medios_pago_Defecto_original != '' && ticketInformation.medios_pago_Defecto_original != null && ticketInformation.medios_pago_Defecto_original != undefined)?ticketInformation.medios_pago_Defecto_original:null);
   /******************************************/
   console.log("DATOS SERVICIO",ticket);
   const {

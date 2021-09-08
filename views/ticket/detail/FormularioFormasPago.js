@@ -186,7 +186,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
        columns[`forma_pago_${num}`] = {
         type: 'AutoComplete',
         label: 'Medio Pago',
-        initialValue: paymentOriginales == 'si' ? ((medio_pago_defecto[num_array] != undefined && medio_pago_defecto[num_array] != '' && medio_pago_defecto[num_array] != null) ? ((medio_pago_defecto[num_array].data_medio_pago != null && medio_pago_defecto[num_array].data_medio_pago != '' && medio_pago_defecto[num_array].data_medio_pago != undefined) ? medio_pago_defecto[num_array].data_medio_pago[0] : null) : null):(medio_pago_defecto[num_array] != undefined ? ((medio_pago_defecto[num_array].data_medio_pago != null && medio_pago_defecto[num_array].data_medio_pago != '' && medio_pago_defecto[num_array].data_medio_pago != undefined ) ? medio_pago_defecto[num_array].data_medio_pago[0]:null) : null),
+        initialValue: paymentOriginales == 'si' ? ((medio_pago_defecto != null) ? ((medio_pago_defecto[num_array] != undefined && medio_pago_defecto[num_array] != '' && medio_pago_defecto[num_array] != null) ? ((medio_pago_defecto[num_array].data_medio_pago != null && medio_pago_defecto[num_array].data_medio_pago != '' && medio_pago_defecto[num_array].data_medio_pago != undefined) ? medio_pago_defecto[num_array].data_medio_pago[0] : null) : null):null):((medio_pago_defecto != null)?(medio_pago_defecto[num_array] != undefined ? ((medio_pago_defecto[num_array].data_medio_pago != null && medio_pago_defecto[num_array].data_medio_pago != '' && medio_pago_defecto[num_array].data_medio_pago != undefined ) ? medio_pago_defecto[num_array].data_medio_pago[0]:null) : null):null),
         store: {
           url: 'ventas_facturacion/FormaPago/listarFormaPago',
           params: {

@@ -33,7 +33,8 @@ const [nroTarjetaDefecto, setNroTarjetaDefecto] = useState();
 const [nroTarjetaDefecto2, setNroTarjetaDefecto2] = useState();
 const [nroAutorizacionDefecto, setNroAutorizacionDefecto] = useState();
 const [nroAutorizacionDefecto2, setNroAutorizacionDefecto2] = useState();
-
+console.log("aqui para el data ticket",data);
+console.log("aqui para el data ticket",dataErp);
 useEffect(() => {        
     if (fp_tarjeta != null && fp_tarjeta != '') { 
       setMontoFpDefecto(fp_tarjeta[0].paymentAmount);
@@ -143,7 +144,7 @@ if (fp_tarjeta.length == 2) {
 
                 {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion_medio_pago.permiso : 0) != 0) &&  
                   (modificaciones_stage == null) && 
-                (   <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp} total_medios_pago = {medio_pago_defecto.length} medio_pago_defecto = {medio_pago_defecto} data_defecto = {dataTicket.payment} paymentOriginales={paymentOriginales}/>
+                (   <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp} total_medios_pago = {(medio_pago_defecto != null ? medio_pago_defecto.length : 1)} medio_pago_defecto = {medio_pago_defecto} data_defecto = {dataErp.medios_pago_originales_stage} paymentOriginales={paymentOriginales}/>
                 
                 )}      
 
