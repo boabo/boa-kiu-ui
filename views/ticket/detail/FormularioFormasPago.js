@@ -335,6 +335,11 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
          validate: {
            shape: Yup.string().max(20, 'Tamaño maximo 20 digitos'),           
          },
+         onChange: (obj) => {        
+          /**Aqui las validaciones para los medios de pago**/
+          obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim());       
+          /*************************************************/
+        },
          group: `groupMedioPago${num}`,
          hide: paymentOriginales == 'si' ? ((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? (data_defecto[num_array].creditCardNumber.trim() != '' ? false : true):true) : true):((data_defecto != '' && data_defecto != null && data_defecto != undefined) ? (data_defecto[num_array] != undefined ? (data_defecto[num_array].creditCardNumber!='' ? false : true):true) : true),
        };    
@@ -349,7 +354,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
           shape: Yup.string().min(6, 'Tamaño maximo 6 digitos'),           
         },
         onChange: (obj) => {   
-          obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase());
+          obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase().trim());
           console.log("Aqui llega el cambio",obj); 
           console.log("Aqui llega el cambio",obj.value.toUpperCase()); 
         },
@@ -362,6 +367,11 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
         label: 'MCO',
         variant: 'outlined',
         initialValue: '',    
+        onChange: (obj) => {        
+          /**Aqui las validaciones para los medios de pago**/
+          obj.states[`mco_${num}`].setValue(obj.value.trim());       
+          /*************************************************/
+        },
         group: `groupMedioPago${num}`,
         hide:true
       }; 
