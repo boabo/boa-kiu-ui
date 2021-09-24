@@ -125,9 +125,9 @@ const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
           Nro Ticket :<b> {ticket.ticketNumber} </b> <Divider />
           Transacción: <b style={{color:colorTransaction}}>{ticket.transaction}{' '}</b>
           <Divider />
-          <ActionsTicket ticket={ticket} initFilter={initFilter}  showButtonAnular={showButtonAnular} permission={permission}/>
+          {/* <ActionsTicket ticket={ticket} initFilter={initFilter}  showButtonAnular={showButtonAnular} permission={permission}/> */}
           </Typography>
-          </Grid>
+          </Grid>        
         <Grid item lg={6} sm={6} xs={6}>
           <Typography align="right">
             Punto de Venta:<b> {ticket.issueAgencyCode}({ticket.issueOfficeID})  </b> <Divider />
@@ -137,6 +137,11 @@ const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
 
           </Typography>
         </Grid>
+         <Grid item lg={12} sm={6} xs={6}>
+          <Typography align="left">
+          <ActionsTicket ticket={ticket} initFilter={initFilter}  showButtonAnular={showButtonAnular} permission={permission}/>
+         </Typography>
+        </Grid> 
       </Grid>
 
       {dataPnr &&(  

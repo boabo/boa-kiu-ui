@@ -23,6 +23,19 @@ const ActionsTicket = ({
   showButtonAnular,
   permission,
 }) => {
+
+  /*Aumentando para recuperar del Array exchange*/
+  const dataWithId = ticket.ExchangeTicket.reduce((lastValue, value, index) => {
+    lastValue.push({
+      ...value,
+      id: index,
+    });
+    return lastValue;    
+  }, []);
+  /**********************************************/
+
+
+
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -138,7 +151,20 @@ const ActionsTicket = ({
           Original: {ticket.OriginalTicket}
         </Button>
       )}
-      {ticket.ExchangeTicket && (
+      {ticket.ExchangeTicket.length >= 1 && dataWithId.map((row) => (
+            <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<ConfirmationNumberIcon />}
+            onClick={() => {
+              initFilter(row.ExchangeTicket.trim());
+            }}
+          >
+            Exchange: {row.ExchangeTicket}
+          </Button>
+          ))}
+      {/* {ticket.ExchangeTicket && (
         <Button
           variant="contained"
           color="secondary"
@@ -150,7 +176,7 @@ const ActionsTicket = ({
         >
           Exchange: {ticket.ExchangeTicket}
         </Button>
-      )}
+      )} */}
       <Confirm
         openConfirm={confirmDelete.open}
         setOpenConfirm={setConfirmDelete}
