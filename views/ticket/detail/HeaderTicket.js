@@ -118,7 +118,7 @@ const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
           Codigo de Reserva:<Link
                             component="button"
                             variant="body2"
-                            onClick={(e) => recuperarDatosPnr(ticket.pnrCode,moment(ticket.issueDate, 'YYYY-MM-DD').format('YYYY-MM-DD',))}
+                            onClick={(e) => recuperarDatosPnr(ticket.pnrCode,moment(ticket.issueDate, 'YYYY-MM-DD').format('YYYYMMDD',))}
                           >
                           <b> {ticket.pnrCode} </b>
                           </Link> <Divider />
