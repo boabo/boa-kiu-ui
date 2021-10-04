@@ -187,7 +187,10 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
           initialValue: initialValueNroTarjeta,
           onChange: (obj) => {        
             /**Aqui las validaciones para los medios de pago**/
-            obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim());       
+            obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim().replace(/[^0-9 ]/g,""));  
+            
+            
+            //replace(/[^a-zA-Z ]/g, "")
             /*************************************************/
           },
           validate: {
@@ -207,7 +210,10 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
             shape: Yup.string().max(6, 'Tamaño maximo 6 digitos').required('Este Campo es Requerido'),
           },
           onChange: (obj) => {   
-            obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase().trim());
+            obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase().trim().replace(/[^a-zA-Z0-9 ]/g, ""));
+
+            //obj.states[`num_tarjeta_${num}`].setValue(obj.value.replace(/[a-zA-Z]+/i,"")); 
+
           },
           group: `groupMedioPago${num}`,
         };

@@ -337,7 +337,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
          },
          onChange: (obj) => {        
           /**Aqui las validaciones para los medios de pago**/
-          obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim());       
+          obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim().replace(/[^0-9 ]/g,""));       
           /*************************************************/
         },
          group: `groupMedioPago${num}`,
@@ -354,7 +354,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
           shape: Yup.string().min(6, 'Tamaño maximo 6 digitos'),           
         },
         onChange: (obj) => {   
-          obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase().trim());
+          obj.states[`cod_tarjeta_${num}`].setValue(obj.value.toUpperCase().trim().replace(/[^a-zA-Z0-9 ]/g, ""));
           console.log("Aqui llega el cambio",obj); 
           console.log("Aqui llega el cambio",obj.value.toUpperCase()); 
         },
