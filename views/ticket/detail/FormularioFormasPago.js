@@ -415,7 +415,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
           },
           parFilters: 'auxcta.codigo_auxiliar#auxcta.nombre_auxiliar',
           idDD: 'id_auxiliar',
-          descDD: 'nombre_auxiliar',
+          descDD: 'desc_auxiliar',
           minChars: 2,
           renderOption: (option) => {              
             return (
@@ -477,7 +477,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
           },
           parFilters: 'auxcta.codigo_auxiliar#auxcta.nombre_auxiliar',
           idDD: 'id_auxiliar',
-          descDD: 'nombre_auxiliar',
+          descDD: 'desc_auxiliar',
           minChars: 2,
           renderOption: (option) => {              
             return (
