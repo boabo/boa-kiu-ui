@@ -120,7 +120,7 @@ if (fp_tarjeta.length == 2) {
           <BasicTable tableName={"Forma de Pago Originales"} columns={columns} data={data} />
 
           <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
-                {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso : 0) != 0) && dataErpFp && (dataErpFp ? ((dataErpFp.datos != null && dataErpFp.datos != '') ? dataErpFp.datos[0].codigo : ''):'') == 'CC' &&
+                {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.tiene_external != '') ? dataErp.tiene_external : 'no') != 'si') && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion.permiso : 0) != 0) && dataErpFp && (dataErpFp ? ((dataErpFp.datos != null && dataErpFp.datos != '') ? dataErpFp.datos[0].codigo : ''):'') == 'CC' &&
                   (modificaciones_stage == null) && 
                 (            
                   <>
@@ -142,7 +142,7 @@ if (fp_tarjeta.length == 2) {
                   
                 )}      
 
-                {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion_medio_pago.permiso : 0) != 0) &&  
+                {!cargaConsi && dataTicket && dataTicket.countryCode == 'BO' && (((dataErp.tiene_external != '') ? dataErp.tiene_external : 'no') != 'si') && (((dataErp.data_erp != '' &&  dataErp.data_erp != null) ? dataErp.data_erp.permiso_modificacion_medio_pago.permiso : 0) != 0) &&  
                   (modificaciones_stage == null) && 
                 (   <ActionsMedioPago dataTicket = {dataTicket} initFilter={initFilter} dataErp = {dataErp} total_medios_pago = {(medio_pago_defecto != null ? medio_pago_defecto.length : 1)} medio_pago_defecto = {medio_pago_defecto} data_defecto = {dataErp.medios_pago_originales_stage} paymentOriginales={paymentOriginales}/>
                 
