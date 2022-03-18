@@ -6,6 +6,7 @@ import {
   Tab,
   Tabs,
   makeStyles,
+  Typography,
 } from '@material-ui/core';
 import Details from './detail/Details';
 import useJsonStore from '../../../_pxp/hooks/useJsonStore';
@@ -15,6 +16,26 @@ import { Grid } from '@material-ui/core';
 import Concilliation from './detail/Concilliation';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,14 +90,33 @@ const Ticket = () => {
   // when the data has gotten an resp
   useEffect(() => {
     console.log(data);
-    if (data) {     
+    if (data) {
       console.log("aqui llega data",data);
       setTicketInformation(data);
-      filterConcilliation((data != null && data != '' && data != undefined) ? ((data.data != '' && data.data != undefined)?data.data[0].ticketNumber.trim():null):null); 
+      filterConcilliation((data != null && data != '' && data != undefined) ? ((data.data != '' && data.data != undefined)?data.data[0].ticketNumber.trim():null):null);
+
+      //create the tabs
+      if(data.data != '' && data.data != undefined) {
+        const tabsAux = data.data.reduce((prev, currentData, index) => {
+          const t = {
+            value: index, label: currentData.transaction
+          };
+          return [...prev, t];
+
+        }, []);
+
+        setTabs(tabsAux);
+        setCurrentTab(tabsAux[0].value);
+      }
+
     }
   }, [data]);
 
-  useEffect(() => { 
+  useEffect(() => {
+    console.log('ticketInformation',ticketInformation)
+  }, [ticketInformation]);
+
+  useEffect(() => {
     if (datosRecuConciliation) {
       setConsiliationDetail(datosRecuConciliation);
     }
@@ -84,13 +124,9 @@ const Ticket = () => {
 
   const classes = useStyles();
   const [customer, setCustomer] = useState(null);
+  const [tabs, setTabs] = useState([]);
   const [currentTab, setCurrentTab] = useState('details');
 
-  const tabs = [
-    { value: 'details', label: 'Detalle Boleto' },
-    /* { value: 'invoices', label: 'Invoices' },
-    { value: 'logs', label: 'Logs' } */
-  ];
 
   const handleTabsChange = (event, value) => {
     setCurrentTab(value);
@@ -107,7 +143,7 @@ const Ticket = () => {
     });
   };
 
-  const initFilter = (inputValue) => {    
+  const initFilter = (inputValue) => {
     set({
       ...state,
       params: {
@@ -115,8 +151,8 @@ const Ticket = () => {
       },
       load: true,
     });
-   
-  }; 
+
+  };
 
 
 
@@ -143,21 +179,29 @@ const Ticket = () => {
             </Box>
             <Divider />
             <Box mt={3}>
-              {currentTab === 'details' &&
+              {tabs.map((tab) => (
+                <TabPanel value={currentTab} index={tab.value}>
+                  {ticketInformation &&
+                  ticketInformation.data && (
+                    <Details ticketInformation={ticketInformation} position={tab.value} permission={permission} initFilter={initFilter} cargaConsi = {cargaConsiliation}/>
+                  )}
+                </TabPanel>
+              ))}
+              {/*{currentTab === 'details' &&
                 ticketInformation &&
                 ticketInformation.data && (
                   <Details ticketInformation={ticketInformation} permission={permission} initFilter={initFilter} cargaConsi = {cargaConsiliation}/>
-                )}
+                )}*/}
               {currentTab === 'details' &&
                 ticketInformation &&
                 ticketInformation.errorTicket && (
                   <div>{ticketInformation.message}</div>
                 )}
 
-              {cargaConsiliation &&               
-              <div className={classes.carga}>               
+              {cargaConsiliation &&
+              <div className={classes.carga}>
               <h2>Cargando Conciliación</h2>
-                <center><CircularProgress /></center>               
+                <center><CircularProgress /></center>
               </div>}
 
               {!cargaConsiliation && (
@@ -165,12 +209,12 @@ const Ticket = () => {
                   <br/>
                 {currentTab === 'details' && conciliationDetail && conciliationDetail.conciliacion_oficial != null && (
                   <Concilliation data={conciliationDetail.conciliacion_oficial} dataBoleto = {ticketInformation.data[0]}/>
-           
-                )} 
+
+                )}
                 </div>
               )}
-              
-               
+
+
               {/* {currentTab === 'invoices' && <Details />}
           {currentTab === 'logs' && <Details />} */}
             </Box>

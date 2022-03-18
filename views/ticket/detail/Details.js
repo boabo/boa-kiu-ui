@@ -31,6 +31,7 @@ const useStyles = makeStyles(() => ({
 
 const Details = ({
   ticketInformation,
+  position,
   permission,
   initFilter,
   cargaConsi,
@@ -38,10 +39,10 @@ const Details = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const ticket = ticketInformation.data[0];  
+  const ticket = ticketInformation.data[position];
   /*Aumentando para la forma de pago Tarjeta*/
   const fp_tarjeta_code = ticketInformation.forma_pago_tarjeta_code;
-  const fp_tarjeta = ticketInformation.forma_pago_tarjeta;  
+  const fp_tarjeta = ticketInformation.forma_pago_tarjeta;
   const boleto_modificado_stage = ((ticketInformation.medios_pago_modificadas_stage != '' && ticketInformation.medios_pago_modificadas_stage != null && ticketInformation.medios_pago_modificadas_stage != undefined)?ticketInformation.medios_pago_modificadas_stage:null);
   const forma_pago_modificadas_stage = ticketInformation.forma_pago_modificadas_stage;
   const medios_pago_defecto_modificados = ((ticketInformation.medios_pago_Defecto != '' && ticketInformation.medios_pago_Defecto != null && ticketInformation.medios_pago_Defecto != undefined)?ticketInformation.medios_pago_Defecto:null);
@@ -54,12 +55,12 @@ const Details = ({
     boleto_amadeus_modificado: boletoAmadeusModificado,
     datos_emision: datosEmision,
     /*Aumentando para las formas de pago ERP*/
-    formas_pago_erp_tarjeta:formas_pago_erp_tarjeta, 
-    
+    formas_pago_erp_tarjeta:formas_pago_erp_tarjeta,
+
 
   } = ticketInformation.data_erp;
   console.log("DATOS SERVICIO ERP",ticketInformation);
-    
+
   return (
     <Grid
       className={clsx(classes.root, className)}
@@ -93,7 +94,7 @@ const Details = ({
           <Taxes data={ticket.taxes} />
         </Grid>
       )}
-      
+
       {Array.isArray(facturaErp) && facturaErp.length > 0 && (
         <Grid item lg={12} md={12} xl={12} xs={12}>
           <FacturaErp data={facturaErp || []} />
@@ -106,35 +107,35 @@ const Details = ({
         </Grid>
       )}
 
-      
+
       <Grid item lg={12} md={12} xl={12} xs={12}>
-        <Payments data={ticket.payment} 
-                  dataTicket = {ticket} 
-                  dataErp = {ticketInformation} 
-                  initFilter={initFilter}                  
+        <Payments data={ticket.payment}
+                  dataTicket = {ticket}
+                  dataErp = {ticketInformation}
+                  initFilter={initFilter}
                   fp_tarjeta = {fp_tarjeta}
                   modificaciones_stage = {boleto_modificado_stage}
                   cargaConsi = {cargaConsi}
                   medio_pago_defecto = {medio_pago_originales}
                   paymentOriginales = 'si'
-        /> 
-        
+        />
+
         {/* Aqui mandar el ticket con las condiciones que se dijo para habilitar el boton editar */}
       </Grid>
-      
+
       {boleto_modificado_stage && (boleto_modificado_stage.length > 0) &&(
       <Grid item lg={12} md={12} xl={12} xs={12}>
-        <BoletoAmadeusModificado data={boleto_modificado_stage || []}                                  
-                                 dataTicket = {ticket} 
-                                 dataErp = {ticketInformation} 
+        <BoletoAmadeusModificado data={boleto_modificado_stage || []}
+                                 dataTicket = {ticket}
+                                 dataErp = {ticketInformation}
                                  initFilter={initFilter}
-                                 formas_pago_erp_tarjeta = {forma_pago_modificadas_stage}                                 
+                                 formas_pago_erp_tarjeta = {forma_pago_modificadas_stage}
                                  modificaciones_stage = {boleto_modificado_stage}
-                                 cargaConsi = {cargaConsi} 
+                                 cargaConsi = {cargaConsi}
                                  medio_pago_defecto = {medios_pago_defecto_modificados}
                                  paymentOriginales = 'no' />
       </Grid>
-      )} 
+      )}
 
       {/* {conciliationDetail.conciliacion_oficial != null &&(
       <Grid item lg={12} md={12} xl={12} xs={12}>

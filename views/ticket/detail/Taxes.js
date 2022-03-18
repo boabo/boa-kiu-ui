@@ -8,6 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import BasicTable from '../../../../_pxp/components/BasicTable';
+import TaxesTable from "../components/TaxesTable";
+import useJsonStore from "../../../../_pxp/hooks/useJsonStore";
 
 const TableCellChanged = withStyles({
   root: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles({
 });
 const columns = [
   { field: 'taxCode', headerName: 'Codigo' },
+  { field: 'correctTax', headerName: 'Correcto' },
   { field: 'reference', headerName: 'Ref.' },
   { field: 'taxAmount', headerName: 'Importe' },
 ];
@@ -36,7 +39,19 @@ const Taxes = ({ data }) => {
     return lastValue;
   }, []);
 
-  return <BasicTable tableName={"Impuestos"} columns={columns} data={dataWithId} />;
+  const { state, set, data: dataTaxes, loading } = useJsonStore({
+    url: 'boakiu/Taxes/getTaxCode',
+    params: {
+      nro_ticket: '',
+    },
+    load: true,
+  });
+
+  return (
+    <>
+      {dataTaxes && (<TaxesTable tableName={"Impuestos"} columns={columns} data={dataWithId} dataTaxes={dataTaxes} />)}
+    </>
+  );
 };
 
 export default Taxes;
