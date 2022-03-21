@@ -129,6 +129,10 @@ const Ticket = () => {
 
 
   const handleTabsChange = (event, value) => {
+    console.log('tab changed', value)
+    console.log('ticketInformation.data[value]', ticketInformation.data[value])
+    filterConcilliation(ticketInformation.data[value].ticketNumber.trim());
+
     setCurrentTab(value);
   };
 
@@ -185,6 +189,24 @@ const Ticket = () => {
                   ticketInformation.data && (
                     <Details ticketInformation={ticketInformation} position={tab.value} permission={permission} initFilter={initFilter} cargaConsi = {cargaConsiliation}/>
                   )}
+
+                  {cargaConsiliation &&
+                  <div className={classes.carga}>
+                    <h2>Cargando Conciliación</h2>
+                    <center><CircularProgress /></center>
+                  </div>}
+
+                  {!cargaConsiliation && (
+                    <div>
+                      <br/>
+                      {conciliationDetail && conciliationDetail.conciliacion_oficial != null && (
+                        <Concilliation data={conciliationDetail.conciliacion_oficial} dataBoleto = {ticketInformation.data[0]}/>
+
+                      )}
+                    </div>
+                  )}
+
+
                 </TabPanel>
               ))}
               {/*{currentTab === 'details' &&
@@ -198,21 +220,9 @@ const Ticket = () => {
                   <div>{ticketInformation.message}</div>
                 )}
 
-              {cargaConsiliation &&
-              <div className={classes.carga}>
-              <h2>Cargando Conciliación</h2>
-                <center><CircularProgress /></center>
-              </div>}
 
-              {!cargaConsiliation && (
-                <div>
-                  <br/>
-                {currentTab === 'details' && conciliationDetail && conciliationDetail.conciliacion_oficial != null && (
-                  <Concilliation data={conciliationDetail.conciliacion_oficial} dataBoleto = {ticketInformation.data[0]}/>
 
-                )}
-                </div>
-              )}
+
 
 
               {/* {currentTab === 'invoices' && <Details />}

@@ -30,7 +30,7 @@ const ActionsTicket = ({
       ...value,
       id: index,
     });
-    return lastValue;    
+    return lastValue;
   }, []);
   /**********************************************/
 
@@ -124,6 +124,8 @@ const ActionsTicket = ({
     setTextArea(e.target.value);
   };
 
+  console.log('ticket.OriginalTicket',ticket.OriginalTicket)
+
   return (
     <>
       Acciones:{' '}
@@ -145,10 +147,10 @@ const ActionsTicket = ({
           className={classes.button}
           startIcon={<ConfirmationNumberIcon />}
           onClick={() => {
-            initFilter(ticket.OriginalTicket.trim());
+            initFilter(ticket.OriginalTicket.ticketNumber.trim());
           }}
         >
-          Original: {ticket.OriginalTicket}
+          Original: {ticket.OriginalTicket.ticketNumber}
         </Button>
       )}
       {ticket.ExchangeTicket.length >= 1 && dataWithId.map((row) => (
