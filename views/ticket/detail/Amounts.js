@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Amounts = ({ ticket, dataErp, className, ...rest }) => {
-  const classes = useStyles();  
-  const { taxes = [] } = ticket;
+  const classes = useStyles();
+  const { taxes = [], boaCommissions = [] } = ticket;
   console.log('taxesss', taxes);
   const impuestoNacional = taxes.reduce((last, newData) => {
     console.log('newData', newData);
@@ -61,6 +61,11 @@ const Amounts = ({ ticket, dataErp, className, ...rest }) => {
     const amountAux = newData.taxCode === 'CP' ? newData.taxAmount : 0;
     return last + amountAux;
   }, 0);
+
+  const comisionesTotal = boaCommissions.reduce((accumulator, object) => {
+    return accumulator + object.CommissionAmount;
+  }, 0);
+
 
   return (
     <Container maxWidth={false}>
@@ -113,7 +118,7 @@ const Amounts = ({ ticket, dataErp, className, ...rest }) => {
           />
         </Grid>
         <Grid item lg={3} sm={3} xs={12}>
-          <AmountBox         
+          <AmountBox
             descAmount1="Comision Agencia"
             amount1={currencyFormat({ value: (dataErp.comision_erp != '' && dataErp.comision_erp != undefined && dataErp.comision_erp != null) ? dataErp.comision_erp.comision : '0', withCode: false })}
             currency={ticket.currency}
@@ -121,6 +126,16 @@ const Amounts = ({ ticket, dataErp, className, ...rest }) => {
             descAmount2=""
             amount2=""
             currency={ticket.currency}
+          />
+        </Grid>
+        <Grid item lg={3} sm={3} xs={12}>
+          <AmountBox
+            descAmount1="Comision"
+            amount1={currencyFormat({ value: comisionesTotal, withCode: false })}
+            currency={ticket.currency}
+
+            descAmount2=""
+            amount2=""
           />
         </Grid>
 

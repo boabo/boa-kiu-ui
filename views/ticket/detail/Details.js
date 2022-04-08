@@ -20,6 +20,7 @@ import Devoluciones from './Devoluciones';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
+import Commissions from "./Commissions";
 /* import CustomerInfo from './CustomerInfo';
 import Emails from './Emails';
 import Invoices from './Invoices';
@@ -90,8 +91,13 @@ const Details = ({
         <FareCalc desc="fare Calc" value={ticket.fareCalculation} />
       </Grid>
       {ticket.taxes && (
-        <Grid item lg={12} md={12} xl={12} xs={12}>
+        <Grid item lg={6} md={6} xl={6} xs={6}>
           <Taxes data={ticket.taxes} />
+        </Grid>
+      )}
+      {ticket.boaCommissions && (
+        <Grid item lg={6} md={6} xl={6} xs={6}>
+          <Commissions data={ticket.boaCommissions} />
         </Grid>
       )}
 
