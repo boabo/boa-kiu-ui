@@ -40,7 +40,7 @@ const Commissions = ({ data }) => {
     return lastValue;
   }, []);
 
-  return <BasicTable tableName={"Cupones"} data={dataWithId} columns={columns} />;
+  return <BasicTable tableName={"Comisiones"} data={dataWithId} columns={columns} />;
 
 };
 
