@@ -187,7 +187,7 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
           initialValue: initialValueNroTarjeta,
           onChange: (obj) => {        
             /**Aqui las validaciones para los medios de pago**/
-            obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim().replace(/[^0-9 ]/g,""));  
+            obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim().replace(/[^0-9*Xx ]/g,""));  
             
             
             //replace(/[^a-zA-Z ]/g, "")

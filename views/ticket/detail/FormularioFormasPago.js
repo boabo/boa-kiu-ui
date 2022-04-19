@@ -337,7 +337,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
          },
          onChange: (obj) => {        
           /**Aqui las validaciones para los medios de pago**/
-          obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim().replace(/[^0-9 ]/g,""));       
+          obj.states[`num_tarjeta_${num}`].setValue(obj.value.trim().replace(/[^0-9*Xx ]/g,""));       
           /*************************************************/
         },
          group: `groupMedioPago${num}`,
