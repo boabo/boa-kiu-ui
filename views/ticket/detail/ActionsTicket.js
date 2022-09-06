@@ -6,10 +6,12 @@ import { useSnackbar } from 'notistack';
 import moment from 'moment';
 import { Container } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import {Select, MenuItem } from '@material-ui/core';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Confirm from '../../../../_pxp/components/Alert/Confirm';
 import Pxp from '../../../../Pxp';
 import LoadingScreen from '../../../../_pxp/components/LoadingScreen';
+import siatInvoice from "./SiatInvoice";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -47,15 +49,29 @@ const ActionsTicket = ({
   const [loading, setLoading] = useState(false);
   const [textArea, setTextArea] = useState('');
 
+
+  const [values, setValues] = React.useState([
+    {value:1, desc: 'FACTURA MAL EMITIDA'},
+    {value:3, desc: 'DATOS DE EMISION INCORRECTOS'},
+    {value:4, desc: 'FACTURA O NOTA DE CREDITO-DEBITO DEVUELTA'},
+  ]);
+  const [selected, setSelected] = useState(1);
+
+  function handleChange(event) {
+    setSelected(event.target.value);
+  }
+
   const handleDisabledTicket = (e) => {
     alert('asdasdas');
   };
 
   const handleConfirmDelete = (row) => {
+
     setConfirmDelete({
       open: true,
       data: row,
     });
+
   };
 
   const handleDelete = (row, valueMotive) => {
@@ -63,10 +79,21 @@ const ActionsTicket = ({
     // diff if is object or array
     // array is when the delete was executed with selections
     // object is when the delete was executed from actions menu
+    let dataSiatToSend;
+    if(ticket.siatInvoice) {
+      dataSiatToSend = ticket.siatInvoice.find(
+        (si) => si.estado === 'VALIDADO POR SIAT',
+      );
+      console.log('dataSiatToSend', dataSiatToSend);
+    }
+
     setLoading(true);
     Pxp.apiClient
       .doRequest({
-        url: 'boakiu/Boleto/disabledTicket',
+        url: 'boakiu/Boleto/disabledTicket-22222',
+        ...(ticket.siatInvoice && {
+          url: 'boakiu/Boleto/disabledTicketWithSiat',
+        }),
         method: 'POST',
         params: {
           nro_tkt: ticket.ticketNumber,
@@ -79,6 +106,10 @@ const ActionsTicket = ({
             'YYYY-MM-DD',
           ),
           motivo: textArea,
+          ...(dataSiatToSend && {
+            siatInvoice: JSON.stringify(dataSiatToSend),
+            motivoAnulacionSiat: selected,
+          }),
         },
       })
       .then((resp) => {
@@ -186,6 +217,24 @@ const ActionsTicket = ({
         dialogContentText={
           <div>
             ¿Está seguro de Anular este boleto {ticket.ticketNumber} ? <br />{' '}
+            {
+                (ticket.siatInvoice) && (<>
+                  <br />
+                <Select
+                    fullWidth={true}
+                  value={selected}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: 'agent',
+                      id: "age-simple"
+                    }}
+                  >
+                  {values.map((value, index) => {
+                    return <MenuItem value={value.value}>{value.desc}</MenuItem>;
+                  })}
+                  </Select>
+                </>)
+            }
             <TextareaAutosize
               onChange={handleTextArea}
               style={{ width: '100%' }}

@@ -21,6 +21,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import Commissions from "./Commissions";
+import SiatInvoice from "./SiatInvoice";
 /* import CustomerInfo from './CustomerInfo';
 import Emails from './Emails';
 import Invoices from './Invoices';
@@ -61,6 +62,8 @@ const Details = ({
 
   } = ticketInformation.data_erp;
   console.log("DATOS SERVICIO ERP",ticketInformation);
+  const {siatInvoice} = ticket;
+  console.log("siatInvoice",siatInvoice);
 
   return (
     <Grid
@@ -107,7 +110,13 @@ const Details = ({
         </Grid>
       )}
 
-      {!facturaErp && Array.isArray(facturaLibroVentas) && (
+      {Array.isArray(siatInvoice) && siatInvoice.length > 0 && (
+        <Grid item lg={12} md={12} xl={12} xs={12}>
+          <SiatInvoice data={siatInvoice || []} />
+        </Grid>
+      )}
+
+      {!siatInvoice && !facturaErp && Array.isArray(facturaLibroVentas) && (
         <Grid item lg={12} md={12} xl={12} xs={12}>
           <FacturaLibroVentas data={facturaLibroVentas || []} />
         </Grid>

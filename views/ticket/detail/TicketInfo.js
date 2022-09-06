@@ -69,7 +69,9 @@ const TicketInfo = ({ ticket, datosEmision = {}, className, ...rest }) => {
           <Grid item lg={4} sm={4} xs={12}>
              Endoso:
             <b> {ticket.Endorsement} </b> <Divider /> Host:<b> {ticket.Host}</b>{' '}
-            <Divider />{' '}
+            <Divider /> fileName : <b> {ticket.fileName} </b>
+            <Divider /> loadDate : <b> {ticket.loadDate} </b>
+            <Divider /> source : <b> {ticket.source} </b>
           </Grid>
         </Grid>
       </Container>
