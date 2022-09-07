@@ -90,7 +90,7 @@ const ActionsTicket = ({
     setLoading(true);
     Pxp.apiClient
       .doRequest({
-        url: 'boakiu/Boleto/disabledTicket-22222',
+        url: 'boakiu/Boleto/disabledTicket',
         ...(ticket.siatInvoice && {
           url: 'boakiu/Boleto/disabledTicketWithSiat',
         }),
