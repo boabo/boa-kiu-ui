@@ -22,6 +22,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import Commissions from "./Commissions";
 import SiatInvoice from "./SiatInvoice";
+import SiatCalculate from "./SiatCalculate";
 /* import CustomerInfo from './CustomerInfo';
 import Emails from './Emails';
 import Invoices from './Invoices';
@@ -64,6 +65,7 @@ const Details = ({
   console.log("DATOS SERVICIO ERP",ticketInformation);
   const {siatInvoice} = ticket;
   console.log("siatInvoice",siatInvoice);
+  console.log("ticket.SIATCalculate",ticket.SIATCalculate);
 
   return (
     <Grid
@@ -96,6 +98,11 @@ const Details = ({
       {ticket.taxes && (
         <Grid item lg={6} md={6} xl={6} xs={6}>
           <Taxes data={ticket.taxes} />
+        </Grid>
+      )}
+      {ticket.SIATCalculate && (
+        <Grid item lg={6} md={6} xl={6} xs={6}>
+          <SiatCalculate data={ticket.SIATCalculate} />
         </Grid>
       )}
       {ticket.boaCommissions && (
