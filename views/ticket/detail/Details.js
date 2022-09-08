@@ -77,6 +77,7 @@ const Details = ({
       <Grid item lg={12} md={12} xl={12} xs={12}>
         <HeaderTicket
           ticket={ticket}
+          dataErp={ticketInformation.data_erp}
           datosEmision={datosEmision}
           permission={permission}
           initFilter={initFilter}

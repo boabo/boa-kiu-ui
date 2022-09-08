@@ -66,7 +66,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 
-const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
+const HeaderTicket = ({ ticket,dataErp, datosEmision, permission, initFilter }) => {
 
   const {counter = '', cajero = ''} = datosEmision || {};
   console.log('permission', permission)
@@ -139,7 +139,7 @@ const HeaderTicket = ({ ticket, datosEmision, permission, initFilter }) => {
         </Grid>
          <Grid item lg={12} sm={6} xs={6}>
           <Typography align="left">
-          <ActionsTicket ticket={ticket} initFilter={initFilter}  showButtonAnular={showButtonAnular} permission={permission}/>
+          <ActionsTicket ticket={ticket}  dataErp={dataErp} initFilter={initFilter}  showButtonAnular={showButtonAnular} permission={permission}/>
          </Typography>
         </Grid> 
       </Grid>

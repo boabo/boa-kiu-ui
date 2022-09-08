@@ -1,10 +1,19 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import BasicTable from '../../../../_pxp/components/BasicTable';
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
+  },
+  root: {
+    '& > *': {
+      margin: 1,
+    },
   },
 });
 
@@ -28,6 +37,11 @@ const columns = [
 
 
 const SiatInvoice = ({ data = [] }) => {
+
+
+  const classes = useStyles();
+
+
   const dataWithId = data.reduce((lastValue, value, index) => {
     lastValue.push({
       ...value,
