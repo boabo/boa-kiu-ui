@@ -157,7 +157,6 @@ const ActionsTicket = ({
   };
 
   console.log('ticket.OriginalTicket',ticket.OriginalTicket)
-  console.log('dataErp.estado_periodo[0].estado',dataErp.estado_periodo[0].estado)
 
   return (
     <>
@@ -169,7 +168,7 @@ const ActionsTicket = ({
           className={classes.button}
           startIcon={<RemoveShoppingCartIcon />}
           onClick={handleConfirmDelete}
-          disabled={(dataErp.estado_periodo[0].estado !== 'open') ? true : false}
+          disabled={(dataErp.estado_periodo && dataErp.estado_periodo[0].estado === 'open') ? false : true}
         >
           Anular Boleto
         </Button>
