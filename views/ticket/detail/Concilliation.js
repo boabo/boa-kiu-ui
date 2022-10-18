@@ -97,27 +97,10 @@ const Concilliation = ({ data = [], dataBoleto }) => {
   const [respuesta, setRepuesta] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
-  const recuperarDatos = (nro_autorizacion,nro_tarjeta,fecha) => {     
-    setOpen(true);  
-    setLoading(true);
-    /*Llamar al servicio*/
-    Pxp.apiClient
-      .doRequest({
-        url: 'boakiu/Boleto/GetTicketData',
-        params: {
-          pnr: '',
-          issueDate: fecha,
-          nroTarjeta: nro_tarjeta,
-          codAutorizacion: nro_autorizacion,
-          tyCons: 'cod_aut',
-        },
-      })
-      .then((resp) => {
-        setRepuesta(resp);   
-        setLoading(false);
-      });  
-
-
+  const recuperarDatos = (documentDetails) => {
+    setOpen(true);
+    console.log('documentDetails',documentDetails)
+    setRepuesta(documentDetails);
 
   };
 
@@ -179,7 +162,7 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.Formato = 'ATC' ? row.EstablishmentCode : row.TerminalNumber))}</TableCell>
                       <TableCell>{row.LotNumber}</TableCell>
                       <TableCell style={{color: ((row.MatchStatus == 'Conciliacion Correcta')?'green':'red')}}>{row.MatchStatus}</TableCell>
-                      <TableCell><Button variant="contained" color="primary" onClick={(e) => recuperarDatos(row.AuthorizationCode,row.CreditCardNumber,moment(row.PaymentDate, 'YYYY-MM-DD').format('YYYYMMDD',))}>Detalle</Button></TableCell>                      
+                      <TableCell><Button variant="contained" color="primary" onClick={(e) => recuperarDatos(row.documentDetails)}>Detalle</Button></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

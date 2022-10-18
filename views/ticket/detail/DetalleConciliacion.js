@@ -7,16 +7,15 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
+
+
 const columns = [
-  { field: 'IssueDate', headerName: 'Fecha Emisión' },
-  { field: 'PassengerName', headerName: 'Pasajero' },
-  { field: 'PnrCode', headerName: 'PNR' },
-  { field: 'TicketNumber', headerName: 'Nro. Boleto' },
-  { field: 'OriginCity', headerName: 'Origen' },
-  { field: 'DestinationCity', headerName: 'Destino' },
-  { field: 'Transaction', headerName: 'Transacción' },
-  { field: 'TotalAmount', headerName: 'Importe' },
-  { field: 'Currency', headerName: 'Moneda' },
+  { field: 'AuthorizationNumber', headerName: 'Authorization Number' },
+  { field: 'ConcilliationObservations', headerName: 'Concilliation Observations' },
+  { field: 'Currency', headerName: 'Currency' },
+  { field: 'DocumentAmount', headerName: 'Document Amount' },
+  { field: 'DocumentNumber', headerName: 'Document Number' },
+  { field: 'DocumentType', headerName: 'Document Type' },
 ];
 
 
