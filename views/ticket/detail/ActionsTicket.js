@@ -4,14 +4,13 @@ import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useSnackbar } from 'notistack';
 import moment from 'moment';
-import { Container } from '@material-ui/core';
+import { Container, Select, MenuItem } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import {Select, MenuItem } from '@material-ui/core';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Confirm from '../../../../_pxp/components/Alert/Confirm';
 import Pxp from '../../../../Pxp';
 import LoadingScreen from '../../../../_pxp/components/LoadingScreen';
-import siatInvoice from "./SiatInvoice";
+import siatInvoice from './SiatInvoice';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -26,8 +25,7 @@ const ActionsTicket = ({
   showButtonAnular,
   permission,
 }) => {
-
-  /*Aumentando para recuperar del Array exchange*/
+  /* Aumentando para recuperar del Array exchange */
   const dataWithId = ticket.ExchangeTicket.reduce((lastValue, value, index) => {
     lastValue.push({
       ...value,
@@ -35,9 +33,7 @@ const ActionsTicket = ({
     });
     return lastValue;
   }, []);
-  /**********************************************/
-
-
+  /** ******************************************* */
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -50,11 +46,10 @@ const ActionsTicket = ({
   const [loading, setLoading] = useState(false);
   const [textArea, setTextArea] = useState('');
 
-
   const [values, setValues] = React.useState([
-    {value:1, desc: 'FACTURA MAL EMITIDA'},
-    {value:3, desc: 'DATOS DE EMISION INCORRECTOS'},
-    {value:4, desc: 'FACTURA O NOTA DE CREDITO-DEBITO DEVUELTA'},
+    { value: 1, desc: 'FACTURA MAL EMITIDA' },
+    { value: 3, desc: 'DATOS DE EMISION INCORRECTOS' },
+    { value: 4, desc: 'FACTURA O NOTA DE CREDITO-DEBITO DEVUELTA' },
   ]);
   const [selected, setSelected] = useState(1);
 
@@ -67,12 +62,10 @@ const ActionsTicket = ({
   };
 
   const handleConfirmDelete = (row) => {
-
     setConfirmDelete({
       open: true,
       data: row,
     });
-
   };
 
   const handleDelete = (row, valueMotive) => {
@@ -81,82 +74,99 @@ const ActionsTicket = ({
     // array is when the delete was executed with selections
     // object is when the delete was executed from actions menu
     let dataSiatToSend;
-    if(ticket.siatInvoice) {
+    let continueFetch = true;
+    if (ticket.siatInvoice) {
       dataSiatToSend = ticket.siatInvoice.find(
         (si) => si.estado === 'VALIDADO POR SIAT',
       );
       console.log('dataSiatToSend', dataSiatToSend);
     }
 
-    setLoading(true);
-    Pxp.apiClient
-      .doRequest({
-        url: 'boakiu/Boleto/disabledTicket',
-        ...(dataSiatToSend && {
-          url: 'boakiu/Boleto/disabledTicketWithSiat',
-        }),
-        method: 'POST',
-        params: {
-          nro_tkt: ticket.ticketNumber,
-          ticketNumber: ticket.ticketNumber,
-          pnrCode: ticket.pnrCode,
-          fecha_emision: moment(ticket.issueDate, 'YYYY-MM-DD').format(
-            'DD/MM/YYYY',
-          ),
-          issueDate: moment(ticket.issueDate, 'YYYY-MM-DD').format(
-            'YYYY-MM-DD',
-          ),
-          motivo: textArea,
+    if (ticket.siatInvoice) {
+      const pendienteDeEnvioAlSiat = ticket.siatInvoice.find(
+        (si) => si.estado === 'PENDIENTE DE ENVIO AL SIAT',
+      );
+      if (pendienteDeEnvioAlSiat) {
+        continueFetch = false;
+      }
+      if(!ticket.siatInvoice[0].estado) {
+        continueFetch = false;
+      }
+    }
+
+    if (continueFetch) {
+     /* setLoading(true);
+      Pxp.apiClient
+        .doRequest({
+          url: 'boakiu/Boleto/disabledTicket',
           ...(dataSiatToSend && {
-            siatInvoice: JSON.stringify(dataSiatToSend),
-            motivoAnulacionSiat: selected,
+            url: 'boakiu/Boleto/disabledTicketWithSiat',
           }),
-        },
-      })
-      .then((resp) => {
-        console.log(resp);
-        setLoading(false);
+          method: 'POST',
+          params: {
+            nro_tkt: ticket.ticketNumber,
+            ticketNumber: ticket.ticketNumber,
+            pnrCode: ticket.pnrCode,
+            fecha_emision: moment(ticket.issueDate, 'YYYY-MM-DD').format(
+              'DD/MM/YYYY',
+            ),
+            issueDate: moment(ticket.issueDate, 'YYYY-MM-DD').format(
+              'YYYY-MM-DD',
+            ),
+            motivo: textArea,
+            ...(dataSiatToSend && {
+              siatInvoice: JSON.stringify(dataSiatToSend),
+              motivoAnulacionSiat: selected,
+            }),
+          },
+        })
+        .then((resp) => {
+          console.log(resp);
+          setLoading(false);
 
-        if (resp.success) {
-          enqueueSnackbar(
-            <div>
-              ERP: ${resp.response_from_erp} STAGE:
-              <pre
-                style={{
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-all',
-                }}
-              >
-                {JSON.stringify(resp.response_from_stage, null, 2)}
-              </pre>
-            </div>,
-            {
-              variant: 'success',
-              persist: false,
-            },
-          );
+          if (resp.success) {
+            enqueueSnackbar(
+              <div>
+                ERP: ${resp.response_from_erp} STAGE:
+                <pre
+                  style={{
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-all',
+                  }}
+                >
+                  {JSON.stringify(resp.response_from_stage, null, 2)}
+                </pre>
+              </div>,
+              {
+                variant: 'success',
+                persist: false,
+              },
+            );
 
-          initFilter(ticket.ticketNumber.trim());
-        } else {
-          enqueueSnackbar(resp.response_from_erp, {
+            initFilter(ticket.ticketNumber.trim());
+          } else {
+            enqueueSnackbar(resp.response_from_erp, {
+              variant: 'error',
+            });
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+
+          enqueueSnackbar(err.message, {
             variant: 'error',
           });
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-
-        enqueueSnackbar(err.message, {
-          variant: 'error',
-        });
-      });
+        });*/
+    } else {
+      alert('NO PUEDES ANULAR ESTE BOLETO INTENTE MAS TARDE, PENDIENTE DE ENVIO AL SIAT');
+    }
   };
 
   const handleTextArea = (e) => {
     setTextArea(e.target.value);
   };
 
-  console.log('ticket.OriginalTicket',ticket.OriginalTicket)
+  console.log('ticket.OriginalTicket', ticket.OriginalTicket);
 
   return (
     <>
@@ -168,7 +178,12 @@ const ActionsTicket = ({
           className={classes.button}
           startIcon={<RemoveShoppingCartIcon />}
           onClick={handleConfirmDelete}
-          disabled={(dataErp.estado_periodo && dataErp.estado_periodo[0].estado === 'open') ? false : true}
+          disabled={
+            !(
+              dataErp.estado_periodo &&
+              dataErp.estado_periodo[0].estado === 'open'
+            )
+          }
         >
           Anular Boleto
         </Button>
@@ -186,8 +201,9 @@ const ActionsTicket = ({
           Original: {ticket.OriginalTicket.ticketNumber}
         </Button>
       )}
-      {ticket.ExchangeTicket.length >= 1 && dataWithId.map((row) => (
-            <Button
+      {ticket.ExchangeTicket.length >= 1 &&
+        dataWithId.map((row) => (
+          <Button
             variant="contained"
             color="secondary"
             className={classes.button}
@@ -198,7 +214,7 @@ const ActionsTicket = ({
           >
             Exchange: {row.ExchangeTicket}
           </Button>
-          ))}
+        ))}
       {/* {ticket.ExchangeTicket && (
         <Button
           variant="contained"
@@ -219,24 +235,26 @@ const ActionsTicket = ({
         dialogContentText={
           <div>
             ¿Está seguro de Anular este boleto {ticket.ticketNumber} ? <br />{' '}
-            {
-                (ticket.siatInvoice) && (<>
-                  <br />
+            {ticket.siatInvoice && (
+              <>
+                <br />
                 <Select
-                    fullWidth={true}
+                  fullWidth
                   value={selected}
                   onChange={handleChange}
                   inputProps={{
                     name: 'agent',
-                      id: "age-simple"
-                    }}
-                  >
+                    id: 'age-simple',
+                  }}
+                >
                   {values.map((value, index) => {
-                    return <MenuItem value={value.value}>{value.desc}</MenuItem>;
+                    return (
+                      <MenuItem value={value.value}>{value.desc}</MenuItem>
+                    );
                   })}
-                  </Select>
-                </>)
-            }
+                </Select>
+              </>
+            )}
             <TextareaAutosize
               onChange={handleTextArea}
               style={{ width: '100%' }}
