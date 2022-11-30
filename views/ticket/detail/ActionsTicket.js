@@ -95,7 +95,7 @@ const ActionsTicket = ({
     }
 
     if (continueFetch) {
-     /* setLoading(true);
+      setLoading(true);
       Pxp.apiClient
         .doRequest({
           url: 'boakiu/Boleto/disabledTicket',
@@ -156,7 +156,7 @@ const ActionsTicket = ({
           enqueueSnackbar(err.message, {
             variant: 'error',
           });
-        });*/
+        });
     } else {
       alert('NO PUEDES ANULAR ESTE BOLETO INTENTE MAS TARDE, PENDIENTE DE ENVIO AL SIAT');
     }
