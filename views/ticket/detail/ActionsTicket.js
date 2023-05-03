@@ -7,9 +7,11 @@ import moment from 'moment';
 import { Container, Select, MenuItem } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
+import PrintIcon from '@material-ui/icons/Print';
 import Confirm from '../../../../_pxp/components/Alert/Confirm';
 import Pxp from '../../../../Pxp';
 import LoadingScreen from '../../../../_pxp/components/LoadingScreen';
+
 import siatInvoice from './SiatInvoice';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +91,7 @@ const ActionsTicket = ({
       if (pendienteDeEnvioAlSiat) {
         continueFetch = false;
       }
-      if(!ticket.siatInvoice[0].estado) {
+      if (!ticket.siatInvoice[0].estado) {
         continueFetch = false;
       }
     }
@@ -158,7 +160,9 @@ const ActionsTicket = ({
           });
         });
     } else {
-      alert('NO PUEDES ANULAR ESTE BOLETO INTENTE MAS TARDE, PENDIENTE DE ENVIO AL SIAT');
+      alert(
+        'NO PUEDES ANULAR ESTE BOLETO INTENTE MAS TARDE, PENDIENTE DE ENVIO AL SIAT',
+      );
     }
   };
 
@@ -168,9 +172,80 @@ const ActionsTicket = ({
 
   console.log('ticket.OriginalTicket', ticket.OriginalTicket);
 
+  const verBoletoPDf = async () => {
+    setLoading(true);
+    console.log('ticket.ticketNumber',ticket.ticketNumber)
+    const bodyData = {
+      controller: 'boa-stage-nd/Ticket/getTicketReport',
+      method: 'POST',
+      params: JSON.stringify({
+        ticketNumber: ticket.ticketNumber,
+      }),
+    };
+
+    Pxp.apiClient
+      .doRequest({
+        url: 'boakiu/PxpNdCaller/doRequest',
+        method: 'POST',
+        params: bodyData,
+      })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+
+        const out = res.body;
+        const arr = out.data;
+        const byteArray = new Uint8Array(arr);
+        const a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(
+          new Blob([byteArray], { type: 'application/octet-stream' }),
+        );
+        a.download = `export_${ticket.ticketNumber}.pdf`;
+
+        // Append anchor to body.
+        document.body.appendChild(a);
+        a.click();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+
+    /* const req = await GetReport(
+      'http://erpmobile.obairlines.bo/rest/boakiu/PxpNdCaller/doRequest',
+      bodyData,
+    );
+    const res = await req.data;
+    setLoadingForm(false);
+    if (res.success === false) {
+      alert(res.msg);
+    } else {
+      const out = res.body;
+      const arr = out.data;
+      const byteArray = new Uint8Array(arr);
+      const a = window.document.createElement('a');
+      a.href = window.URL.createObjectURL(
+        new Blob([byteArray], { type: 'application/octet-stream' }),
+      );
+      a.download = 'export.xls';
+
+      // Append anchor to body.
+      document.body.appendChild(a);
+      a.click();
+    } */
+  };
+
   return (
     <>
       Acciones:{' '}
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        startIcon={<PrintIcon />}
+        onClick={verBoletoPDf}
+      >
+        BOLETO
+      </Button>
       {permission.permission === true && showButtonAnular && (
         <Button
           variant="contained"
