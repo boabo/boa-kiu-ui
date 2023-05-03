@@ -174,7 +174,7 @@ const ActionsTicket = ({
 
   const verBoletoPDf = async () => {
     setLoading(true);
-    console.log('ticket.ticketNumber',ticket.ticketNumber)
+    console.log('ticket.ticketNumber', ticket.ticketNumber);
     const bodyData = {
       controller: 'boa-stage-nd/Ticket/getTicketReport',
       method: 'POST',
@@ -244,7 +244,7 @@ const ActionsTicket = ({
         startIcon={<PrintIcon />}
         onClick={verBoletoPDf}
       >
-        BOLETO
+        IMPRIMIR
       </Button>
       {permission.permission === true && showButtonAnular && (
         <Button
