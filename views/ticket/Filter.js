@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -49,9 +49,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Filter = ({ className, initFilter, ...rest }) => {
+const Filter = ({ className, initFilter, defaultValue = '',  ...rest }) => {
   const classes = useStyles();
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(defaultValue);
   const [chips, setChips] = useState([
     'Freelance',
     'Full Time',
@@ -74,6 +74,13 @@ const Filter = ({ className, initFilter, ...rest }) => {
       initFilter(inputValue);
     }
   };
+  useEffect(() => {
+
+    console.log('useEffect defaultValue',defaultValue)
+    if(defaultValue && defaultValue !== '') {
+      initFilter(inputValue);
+    }
+  }, [defaultValue])
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>

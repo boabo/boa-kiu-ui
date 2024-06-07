@@ -25,6 +25,15 @@ pages.WEB__Home = {
   ],*/
 };
 
+pages.WEB__Home2 = {
+  path: '/boleto/:paramTicket',
+  // component: lazy(() => import('./views/SearchF')),
+  component: lazy(() =>
+      //import('../_examples/components/form/AutoCompleteTriggerComponent'),
+      //import('../_examples/components/form/ExampleTextFieldSelect'),
+      import('./views/ticket/Ticket'),
+  ),
+};
 
 /******************************************************/
 export default pages;

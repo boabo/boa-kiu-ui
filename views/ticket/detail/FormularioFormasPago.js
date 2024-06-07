@@ -195,7 +195,7 @@ const ActionsMedioPagoTarjeta = ({cantidad, dataTicket, CerrarVentana, initFilte
             sort: 'id_medio_pago_pw',
             dir: 'ASC',
             sw_tipo_venta: 'BOLETOS',
-            regionales: 'BOL',
+            regionales: 'BO',
             incluye_recibo : listar_recibo                 
           },
           parFilters: 'forpa.name#pago.fop_code',

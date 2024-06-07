@@ -100,7 +100,7 @@ export default {
   portWebSocket: process.env.REACT_APP_PORT_WEB_SOCKET,
   recaptchaKey: process.env.REACT_APP_RECAPTCHA_KEY,
   backendVersion: 'v1',
-  backendRestVersion: '1',
+  backendRestVersion: '2',
   applicationName: 'Boa Kiu',
   privateInitRoute: './boleto',
   notFoundRoute: '/login',
@@ -138,6 +138,10 @@ export default {
     {
       id: 1000,
       component: 'WEB__Home',
+    },
+    {
+      id: 1001,
+      component: 'WEB__Home2',
     },
   ],
   // darkTheme: 'PINK_DARK',

@@ -15,6 +15,7 @@ import LoadingScreen from '../../../_pxp/components/LoadingScreen';
 import { Grid } from '@material-ui/core';
 import Concilliation from './detail/Concilliation';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {useParams} from "react-router-dom";
 
 
 function TabPanel(props) {
@@ -54,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Ticket = () => {
+  const { paramTicket } = useParams();
+  console.log('paramTicket', paramTicket);
   const [permission, setPermission] = useState(false);
   // verify permission for render button for disabled ticket
   const { data: dataPermission } = useJsonStore({
@@ -163,7 +166,7 @@ const Ticket = () => {
   return (
     <>
       <Container maxWidth={false}>
-        <Filter initFilter={(inputValue) => initFilter(inputValue)} />
+        <Filter defaultValue={paramTicket} initFilter={(inputValue) => initFilter(inputValue)} />
 
         {loading && <LoadingScreen />}
         {!loading && (

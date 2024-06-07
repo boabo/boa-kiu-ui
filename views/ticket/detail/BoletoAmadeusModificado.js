@@ -73,7 +73,7 @@ const BoletoAmadeusModificado = ({ data = [], dataTicket, dataErp, initFilter, f
                   boa_kiu: 'si',
                   codigo_fp: ((formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') ? (formas_pago_erp_tarjeta[0].payMethodCode):null),
                   sw_tipo_venta: 'BOLETOS',
-                  regionales: 'BOL',
+                  regionales: 'BO',
                 },
               })
               .then((resp) => {
@@ -95,7 +95,7 @@ useEffect(() => {
                     boa_kiu: 'si',
                     codigo_fp: ((formas_pago_erp_tarjeta != null && formas_pago_erp_tarjeta != '') ? (formas_pago_erp_tarjeta[1].payMethodCode):null),
                     sw_tipo_venta: 'BOLETOS',
-                    regionales: 'BOL',
+                    regionales: 'BO',
                   },
                 })
                 .then((resp2) => {
@@ -113,7 +113,7 @@ useEffect(() => {
                     boa_kiu: 'si',
                     codigo_fp: null,
                     sw_tipo_venta: 'BOLETOS',
-                    regionales: 'BOL',
+                    regionales: 'BO',
                   },
                 })
                 .then((resp2) => {

@@ -66,7 +66,7 @@ useEffect(() => {
                 boa_kiu: 'si',
                 codigo_fp: ((fp_tarjeta != null && fp_tarjeta != '') ? (fp_tarjeta[0].paymentMethodCode):null),
                 sw_tipo_venta: 'BOLETOS',
-                regionales: 'BOL',
+                regionales: 'BO',
               },
             })
             .then((resp) => {
@@ -87,7 +87,7 @@ if (fp_tarjeta.length == 2) {
                 boa_kiu: 'si',
                 codigo_fp: ((fp_tarjeta != null && fp_tarjeta != '') ? (fp_tarjeta[1].paymentMethodCode):null),
                 sw_tipo_venta: 'BOLETOS',
-                regionales: 'BOL',
+                regionales: 'BO',
               },
             })
             .then((resp2) => {
@@ -105,7 +105,7 @@ if (fp_tarjeta.length == 2) {
                 boa_kiu: 'si',
                 codigo_fp: null,
                 sw_tipo_venta: 'BOLETOS',
-                regionales: 'BOL',
+                regionales: 'BO',
               },
             })
             .then((resp2) => {

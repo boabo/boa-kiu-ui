@@ -140,7 +140,7 @@ const ActionsMedioPagoTarjeta = ({ dataTicket, dataErp,  fp1Defecto, montoFp, nr
               sort: 'id_medio_pago_pw',
               dir: 'ASC',
               sw_tipo_venta: 'BOLETOS',
-              regionales: 'BOL',                   
+              regionales: 'BO',
             },
             parFilters: 'forpa.name#pago.fop_code',
             idDD: 'id_forma_pago',

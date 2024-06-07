@@ -104,6 +104,68 @@ const Concilliation = ({ data = [], dataBoleto }) => {
 
   };
 
+  const pdf = async () => {
+    setLoading(true);
+    console.log('ticket.ticketNumber', dataBoleto.ticketNumber);
+    const bodyData = {
+      controller: 'boa-stage-nd/Reports/formaPagoPdf',
+      method: 'POST',
+      params: JSON.stringify({
+        ticketNumber: dataBoleto.ticketNumber,
+      }),
+    };
+
+    Pxp.apiClient
+        .doRequest({
+          url: 'boakiu/PxpNdCaller/doRequest',
+          method: 'POST',
+          params: bodyData,
+        })
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+
+
+          const out = res.pdf;
+          console.log('out',out)
+          const url = 'data:application/pdf;base64,' + btoa(out);
+
+
+          let pdfWindow = window.open("")
+          pdfWindow.document.write(
+              "<iframe width='100%' height='100%' src='data:application/pdf;base64, " +
+              btoa(out) + "'></iframe>"
+          )
+
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+
+    /* const req = await GetReport(
+      'http://erpmobile.obairlines.bo/rest/boakiu/PxpNdCaller/doRequest',
+      bodyData,
+    );
+    const res = await req.data;
+    setLoadingForm(false);
+    if (res.success === false) {
+      alert(res.msg);
+    } else {
+      const out = res.body;
+      const arr = out.data;
+      const byteArray = new Uint8Array(arr);
+      const a = window.document.createElement('a');
+      a.href = window.URL.createObjectURL(
+        new Blob([byteArray], { type: 'application/octet-stream' }),
+      );
+      a.download = 'export.xls';
+
+      // Append anchor to body.
+      document.body.appendChild(a);
+      a.click();
+    } */
+  };
+
 
   const handleClose = () => {
     setOpen(false);
@@ -162,7 +224,10 @@ const Concilliation = ({ data = [], dataBoleto }) => {
                       <TableCell>{((row.NameComercio != undefined && row.NameComercio != null && row.NameComercio != '') ? row.NameComercio : (row.Formato = 'ATC' ? row.EstablishmentCode : row.TerminalNumber))}</TableCell>
                       <TableCell>{row.LotNumber}</TableCell>
                       <TableCell style={{color: ((row.MatchStatus == 'Conciliacion Correcta')?'green':'red')}}>{row.MatchStatus}</TableCell>
-                      <TableCell><Button variant="contained" color="primary" onClick={(e) => recuperarDatos(row.documentDetails)}>Detalle</Button></TableCell>
+                      <TableCell>
+                        <Button variant="contained" color="primary" onClick={(e) => recuperarDatos(row.documentDetails)}>Detalle</Button>
+                        <Button variant="contained" color="primary" onClick={(e) => pdf(row)}>PDF</Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
