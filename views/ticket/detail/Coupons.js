@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 import BasicTable from '../../../../_pxp/components/BasicTable';
 
 const useStyles = makeStyles({
@@ -21,6 +22,11 @@ const columns = [
   { field: 'CouponStatus', headerName: 'Estado' },
   { field: 'FreeBaggageAllowance', headerName: 'Equipaje' },
   { field: 'FrequentFlyerReference', headerName: 'Cod. Pax Frecuente' },
+  {
+    field: 'UsageDate',
+    headerName: 'Usage Date',
+    render: (value) => moment(value, 'YYYYMMDD').format('DD/MM/YYYY'),
+  },
 ];
 
 
