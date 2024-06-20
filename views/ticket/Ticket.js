@@ -16,6 +16,7 @@ import { Grid } from '@material-ui/core';
 import Concilliation from './detail/Concilliation';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useParams} from "react-router-dom";
+import HistoryExchange from "./detail/HistoryExchange";
 
 
 function TabPanel(props) {
@@ -208,6 +209,10 @@ const Ticket = () => {
                       )}
                     </div>
                   )}
+
+                  <HistoryExchange />
+
+
 
 
                 </TabPanel>
